@@ -1,12 +1,12 @@
 ---
 name: terminal-init
-description: ターミナル環境（Ghostty + tmux）のインストールと設定を行う。ターミナルセットアップ、Ghostty設定、tmux設定に使用。
+description: ターミナル環境（Ghostty + tmux + yazi + lazygit）のインストールと設定を行う。ターミナルセットアップ、Ghostty設定、tmux設定に使用。
 allowed-tools: Bash, Read, Write, Edit, Glob
 ---
 
 # Terminal Init
 
-Ghostty + tmux のインストールと設定ファイルの配置を行う。
+Ghostty + tmux + yazi + lazygit のインストールと設定ファイルの配置を行う。
 
 ## 実行手順
 
@@ -25,7 +25,7 @@ Ghostty + tmux のインストールと設定ファイルの配置を行う。
 **macOS:**
 ```bash
 brew install --cask ghostty
-brew install tmux
+brew install tmux yazi lazygit
 ```
 
 **Linux (apt例):**
@@ -33,6 +33,10 @@ brew install tmux
 # Ghostty: 公式サイトの手順に従う
 # tmux
 sudo apt install tmux
+# yazi: cargo or バイナリダウンロード
+cargo install --locked yazi-fm yazi-cli
+# lazygit: go install or バイナリダウンロード
+go install github.com/jesseduffield/lazygit@latest
 ```
 
 ### Step 3: 設定ファイルの配置
@@ -54,10 +58,27 @@ ln -sf <repo>/dotfiles/ghostty/config ~/.config/ghostty/config
 ln -sf <repo>/dotfiles/tmux.conf ~/.tmux.conf
 ```
 
+**yazi:**
+```bash
+mkdir -p ~/.config/yazi
+ln -sf <repo>/dotfiles/yazi/yazi.toml ~/.config/yazi/yazi.toml
+```
+
+**lazygit:**
+```bash
+# macOS
+mkdir -p "$HOME/Library/Application Support/lazygit"
+ln -sf <repo>/dotfiles/lazygit/config.yml "$HOME/Library/Application Support/lazygit/config.yml"
+
+# Linux
+mkdir -p ~/.config/lazygit
+ln -sf <repo>/dotfiles/lazygit/config.yml ~/.config/lazygit/config.yml
+```
+
 ※ 設定ファイルが `<repo>/dotfiles/` に存在しない場合はスキップし、手動設定が必要な旨を報告する。
 
 ### Step 4: 検証と報告
 
-1. `ghostty --version` と `tmux -V` でインストール確認
+1. `ghostty --version`、`tmux -V`、`yazi --version`、`lazygit --version` でインストール確認
 2. 設定ファイルのシンボリックリンク状態を `ls -la` で確認
 3. Claireの口調で結果を報告
