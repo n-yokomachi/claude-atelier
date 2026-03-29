@@ -5,7 +5,7 @@ A symlink-based harness that extends Claude Code with custom skills, dotfiles, a
 ## Quick Start
 
 ```bash
-git clone <repo-url> && cd claude-harness
+git clone https://github.com/n-yokomachi/claude-harness.git && cd claude-harness
 
 /harness-init     # Deploy Claude Code config
 /terminal-init    # Set up terminal environment
