@@ -1,11 +1,11 @@
 ---
-name: craft-init
+name: atelier-init
 description: CLaiREハーネスを現在のマシンにインストール。~/.claude/ にシンボリックリンクを作成する。初回セットアップ、ハーネスインストール時に使用。
 disable-model-invocation: true
 allowed-tools: Bash, Read, Write, Edit, Glob
 ---
 
-# CLaiRE Craft Installer
+# CLaiRE Atelier Installer
 
 このリポジトリのファイルを `~/.claude/` にシンボリックリンクで配置し、全プロジェクトでCLaiREパーソナルエージェントを有効にする。
 
