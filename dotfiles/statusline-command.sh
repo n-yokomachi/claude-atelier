@@ -20,6 +20,24 @@ SEP="${C_DIM} │ ${C_RESET}"
 # ── 1. Model ────────────────────────────────────────────────────────────────
 model=$(echo "$input" | jq -r '.model.display_name // "unknown"')
 
+# ── 1b. Effort level ────────────────────────────────────────────────────────
+effort=$(echo "$input" | jq -r '.effort_level // .effortLevel // empty')
+if [ -z "$effort" ]; then
+  effort=$(jq -r '.effortLevel // empty' ~/.claude/settings.json 2>/dev/null)
+fi
+case "$effort" in
+  low)    ec="$C_DIM"    ;;
+  medium) ec="$C_YELLOW" ;;
+  high)   ec="$C_ORANGE" ;;
+  xhigh)  ec="$C_RED"    ;;
+  *)      ec="$C_FG"     ;;
+esac
+if [ -n "$effort" ]; then
+  effort_out="${C_DIM}e:${C_RESET}${ec}${effort}${C_RESET}"
+else
+  effort_out=""
+fi
+
 # ── 2. Context window usage + progress bar ──────────────────────────────────
 used_pct=$(echo "$input" | jq -r '.context_window.used_percentage // empty')
 if [ -n "$used_pct" ]; then
@@ -90,5 +108,7 @@ else
 fi
 
 # ── Assemble ─────────────────────────────────────────────────────────────────
-# model │ context bar │ rate │ dir │ git
-echo -e "${C_FG}${model}${C_RESET}${SEP}${ctx_str}${SEP}${rate_out}${SEP}${cwd_out}${SEP}${git_out}"
+# model [│ effort] │ context bar │ rate │ dir │ git
+model_seg="${C_FG}${model}${C_RESET}"
+[ -n "$effort_out" ] && model_seg="${model_seg}${SEP}${effort_out}"
+echo -e "${model_seg}${SEP}${ctx_str}${SEP}${rate_out}${SEP}${cwd_out}${SEP}${git_out}"
