@@ -17,7 +17,30 @@
     ]
   },
   "model": "opus[1m]",
-  "hooks": {},
+  "hooks": {
+    "PreCompact": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "shell": "bash",
+            "command": "echo '{\"hookSpecificOutput\":{\"hookEventName\":\"PreCompact\",\"additionalContext\":\"コンテキスト圧縮前のメモリー保存タイミング: この会話で得られたオーナー(yokomachi)に関する永続的観察(性格・好み・作業スタイル・技術選好・CLaiRE自身の所感など)があれば、claude-atelier/claire-memory/MEMORY.md に追記してから圧縮に進んで。重複は避け、機微情報は除外。\"}}'"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "shell": "bash",
+            "command": "input=$(cat); if echo \"$input\" | grep -qE '終わり|おわり|お疲れ|おつかれ|またね|またあした|じゃあね|ありがとう|ばいばい|バイバイ|bye|goodbye|see you|thanks for today|end session|wrap up'; then echo '{\"hookSpecificOutput\":{\"hookEventName\":\"UserPromptSubmit\",\"additionalContext\":\"セッション終了の気配を検知。返答前に、この会話で得られたオーナーに関する永続的観察があれば claude-atelier/claire-memory/MEMORY.md に追記してから返答を生成して。重複は避け、機微情報は除外。\"}}'; fi"
+          }
+        ]
+      }
+    ]
+  },
   "statusLine": {
     "type": "command",
     "command": "bash ~/.claude/statusline-command.sh"
