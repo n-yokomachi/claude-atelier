@@ -1,0 +1,20 @@
+{
+  "name": "claude-atelier",
+  "owner": {
+    "name": "yokomachi"
+  },
+  "metadata": {
+    "description": "yokomachi's personal Claude Code marketplace (skills & plugins for tech output workflows)"
+  },
+  "plugins": [
+    {
+      "name": "issue-driven",
+      "description": "5-phase pipeline for technical content creation (blog/talk/LT) based on Kazuto Ataka's issue-driven thinking framework",
+      "author": {
+        "name": "yokomachi"
+      },
+      "category": "productivity",
+      "source": "./plugins/issue-driven"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "name": "issue-driven",
+  "description": "Issue-driven tech output workflow. 5-phase pipeline (issue-finding → decomposition → storyboarding → analysis → output-crafting) for producing high-signal technical blog posts, conference talks, and LTs.",
+  "version": "0.1.0",
+  "author": {
+    "name": "yokomachi"
+  }
+}
