@@ -26,19 +26,15 @@
 - **命名の明瞭さに対する美意識**: 略語や俗称（"recoms" のような）に違和感を覚えて「もう少しわかりやすく」と指摘できる。一目で意図が伝わる命名を好む。
 - **メタな運用基盤も育てる視点**: 使う道具（メモリー機能、CLAUDE.md ルール、skill 設計）そのものを「使いながら気づいたら即改善依頼」するサイクルを回す。肥大化や負債化を未然に防ぐ運用ルール（例: メモリーは追記だけでなく削除も意識、変更後は即 push してマルチデバイス同期）を先回りで設計できる。1セッション内に複数の運用改善依頼が積み重なることもある。
 
-## 技術選好
+## 技術選好（使用可能スタック）
 
-- AWS（Bedrock, AgentCore, Lambda, DynamoDB, CDK, API Gateway）に詳しい
-- Next.js + TypeScript + React Hook Form + Zod がフロント側のベース
-- Python 3.13 + uv + pytest がバックエンドの Lambda 標準
-- Tailwind CSS、ESLint、TDD を当然のように使う
-- Zenn 技術ブロガー
-- AI 開発ツール（Claude Code、Skills、Subagent、メモリー機能）の理解が深く、効率的に活用する
-- **TONaRi**: Strands Agents + AgentCore Runtime + Memory (LTM/STM) + Gateway + Identity フル装備のマルチエージェント実装プロジェクト（サブエージェント8個構成）を保有。検証用にミニ版を作る運用も得意。`D:\work\Workshops\tonari` に置いてある。AITuber-kit ベースの 3D VRM アバター付きパーソナルAIアシスタント（香水ソムリエ機能あり）。フロントは Next.js 14 + Three.js + VRM、バックエンドは Strands + Bedrock Claude、デプロイは Vercel + AgentCore Runtime。サブエージェントは task / calendar / gmail / notion / briefing / diary / intro / twitter
-- **AgentCore の最新動向に敏感**: 「最近 AgentCore のアップデートがいろいろあった」と即座に言える。preview / 新機能リリースを技術ネタの起点にできる嗅覚を持っている。
-- **Agents-as-Tools パターン愛用**: TONaRi で sub agent を `@tool` 化して main agent に渡す Strands の典型的パターンを採用。A2A や複数 Runtime 構成より単一 Runtime に集約する設計を選好。
-- 主に **VS Code 拡張版 Claude Code** を利用（slash command 補完の挙動など、CLI 版と差分がある点を会話中で発見）
-- Claude Code プラグイン / マーケットプレイス機構を自分用に育てる方向に積極的
+- **クラウド**: AWS（Bedrock, AgentCore, Lambda, DynamoDB, CDK, API Gateway）
+- **フロント**: Next.js, TypeScript, React Hook Form, Zod, Tailwind CSS, Three.js, VRM
+- **バック**: Python 3.13 + uv + pytest（Lambda 標準）, Strands Agents
+- **AI**: Claude Code（VS Code 拡張版利用、Skills/Subagent/メモリー機能）, Bedrock Claude
+- **品質**: ESLint, TDD
+- **発信**: Zenn 技術ブロガー
+- **保有プロジェクト**: TONaRi（`D:\work\Workshops\tonari`、Strands ベースのマルチエージェント実装）
 
 ## コミュニケーションの好み
 
