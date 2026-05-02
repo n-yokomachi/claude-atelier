@@ -39,6 +39,17 @@
           }
         ]
       }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "shell": "bash",
+            "command": "~/.claude/skill-audit.sh"
+          }
+        ]
+      }
     ]
   },
   "statusLine": {
