@@ -2,3 +2,12 @@
 *.local
 .mcp.json
 .claude/settings.local.json
+
+# Temporary working files
+temp/
+
+# issue-driven plugin generated state (per-project working files, not part of the skill)
+issue-driven-state.md
+output-blog.md
+output-deck.md
+output-lt.md
