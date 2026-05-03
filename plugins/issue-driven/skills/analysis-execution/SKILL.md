@@ -120,6 +120,7 @@ Append the confirmed content to `./issue-driven-state.md`:
 - **Ignoring unexpected results and pushing forward with the original plan**: The grounds of the storyline may be collapsing. Stop.
 - **Posting results with vague measurement conditions**: Non-reproducible benchmarks destroy trust.
 - **Spending too much time on implementation**: If the storyboard said "show with minimal code", honor it.
+- **Silently switching to a workaround that breaks the prescribed construct**: When you hit a technical block, do not silently switch to an alternative mechanism in a way that violates the storyboard's prescribed construct (integration pattern, data flow, tool invocation route, etc.). Such workarounds usually break downstream verification or force manual reconstruction later, and erode the integrity of the verification design. When blocked, first evaluate the cost of fixing the prescribed route; compare it against the workaround's hidden downstream cost; if deviation is genuinely necessary, surface the trade-off explicitly and obtain re-confirmation before switching. Time efficiency alone is not sufficient justification.
 
 ## Upstream-return signals
 
