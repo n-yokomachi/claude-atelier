@@ -11,9 +11,9 @@ The most upstream phase of technical output creation. Identify "what question is
 
 Maximize **issue quality** in the formula `Value = Issue Quality × Solution Quality`. Before any downstream work (writing, analysis, slide design), guarantee that the topic itself is worth pursuing.
 
-## State file
+## State file and artifact location
 
-Throughout this workflow, use `./issue-driven-state.md` in the working directory as a shared state file. Since this skill is the most upstream phase, if the file already exists, ask the user whether to overwrite or append.
+All workflow artifacts (state file, voice/style notes, output files) live under `./.issue-driven/` in the working directory. This skill, being the most upstream phase, creates that directory if it does not exist and writes the state file as `./.issue-driven/state.md`. If the file already exists, ask the user whether to overwrite or append.
 
 ## Execution flow
 
@@ -79,7 +79,7 @@ When multiple formats are selected, format-specific optimization happens during 
 
 ## Output format
 
-Write the confirmed content to `./issue-driven-state.md` using this structure (update only this phase's block if the section already exists):
+Write the confirmed content to `./.issue-driven/state.md` using this structure (update only this phase's block if the section already exists):
 
 ```markdown
 ## Phase 1: Issue Finding (✅ Done YYYY-MM-DD)
@@ -125,7 +125,7 @@ This skill is the most upstream — there's nowhere to return to. However, if an
 
 ## Transition to next phase
 
-Once `./issue-driven-state.md` is written, ask the user:
+Once `./.issue-driven/state.md` is written, ask the user:
 
 > ✅ Phase 1 (Issue Finding) is complete. Proceed to `issue-decomposition` (structure design)?
 

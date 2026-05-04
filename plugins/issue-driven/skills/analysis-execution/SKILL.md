@@ -13,7 +13,7 @@ Materialize the visuals, data, and code drawn in the storyboard. The discipline 
 
 ## Prerequisites
 
-The `## Phase 3: Storyboarding` section must exist in `./issue-driven-state.md`. The "Total verification work" list is the execution target.
+The `## Phase 3: Storyboarding` section must exist in `./.issue-driven/state.md`. The "Total verification work" list is the execution target.
 
 ## Execution flow
 
@@ -88,7 +88,7 @@ These are textbook dog's path. If you do anything outside the storyboard, first 
 
 ## Output format
 
-Append the confirmed content to `./issue-driven-state.md`:
+Append the confirmed content to `./.issue-driven/state.md`:
 
 ```markdown
 ## Phase 4: Analysis Execution (✅ Done YYYY-MM-DD)
@@ -132,7 +132,7 @@ If any of these signals appears during verification, stop immediately. Ignoring 
 
 ## Transition to next phase
 
-Once `./issue-driven-state.md` is written, ask the user:
+Once `./.issue-driven/state.md` is written, ask the user:
 
 > ✅ Phase 4 (Analysis Execution) is complete. Proceed to `output-crafting` (format-specific finishing)?
 

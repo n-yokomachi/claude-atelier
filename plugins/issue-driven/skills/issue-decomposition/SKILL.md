@@ -13,7 +13,7 @@ Skeletal design for raising solution quality. Complete the logical structure its
 
 ## Prerequisites
 
-The `## Phase 1: Issue Finding` section must exist in `./issue-driven-state.md`. If it doesn't, instruct the user to run `issue-driven:issue-finding` first.
+The `## Phase 1: Issue Finding` section must exist in `./.issue-driven/state.md`. If it doesn't, instruct the user to run `issue-driven:issue-finding` first.
 
 ## Execution flow
 
@@ -96,7 +96,7 @@ If any check fails, repeat Steps 1–3.
 
 ## Output format
 
-Append the confirmed content to `./issue-driven-state.md` (update the block if it exists):
+Append the confirmed content to `./.issue-driven/state.md` (update the block if it exists):
 
 ```markdown
 ## Phase 2: Issue Decomposition (✅ Done YYYY-MM-DD)
@@ -136,7 +136,7 @@ Return to `issue-driven:issue-finding` if any of the following apply:
 
 ## Transition to next phase
 
-Once `./issue-driven-state.md` is written, ask the user:
+Once `./.issue-driven/state.md` is written, ask the user:
 
 > ✅ Phase 2 (Issue Decomposition) is complete. Proceed to `storyboarding` (visualization design)?
 

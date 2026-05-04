@@ -17,7 +17,7 @@ A core concept from the book: **work backwards from the final output**. By creat
 
 ## Prerequisites
 
-The `## Phase 2: Issue Decomposition` section must exist in `./issue-driven-state.md`. If not, instruct the user to run `issue-driven:issue-decomposition` first.
+The `## Phase 2: Issue Decomposition` section must exist in `./.issue-driven/state.md`. If not, instruct the user to run `issue-driven:issue-decomposition` first.
 
 ## Execution flow
 
@@ -99,7 +99,7 @@ Check the assembled storyboard:
 
 ## Output format
 
-Append the confirmed content to `./issue-driven-state.md`:
+Append the confirmed content to `./.issue-driven/state.md`:
 
 ```markdown
 ## Phase 3: Storyboarding (✅ Done YYYY-MM-DD)
@@ -141,7 +141,7 @@ Return upstream if any of the following apply:
 
 ## Transition to next phase
 
-Once `./issue-driven-state.md` is written, ask the user:
+Once `./.issue-driven/state.md` is written, ask the user:
 
 > ✅ Phase 3 (Storyboarding) is complete. Proceed to `analysis-execution` (verification work)?
 

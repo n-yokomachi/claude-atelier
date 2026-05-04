@@ -20,7 +20,7 @@ Skip only when the author explicitly asks for generic / neutral writing, or when
 
 1. **Locate prior articles**: Ask the author for the directory or list of prior published articles. Common locations: a `zenn` / `qiita` / `articles` directory, a personal blog repo, or links to published URLs.
 2. **Sample at least 3 articles**: Prefer ones close in topic / format to the current output. Read them in full (not just headings).
-3. **Extract a voice/style profile** along the dimensions below. Write the profile to `./voice-style-notes.md` in the working directory.
+3. **Extract a voice/style profile** along the dimensions below. Write the profile to `./.issue-driven/voice-style-notes.md` in the working directory.
 4. **Honor the profile during writing**: Refer back to the profile at every section. When in doubt, copy the cadence of the closest sample article.
 
 ### Voice/style profile dimensions to extract
@@ -44,7 +44,7 @@ Skip only when the author explicitly asks for generic / neutral writing, or when
 | **AI-generation disclosure** | Whether the author always notes "human-written, AI-edited" etc., and where it appears |
 | **Asides / interjections** | Personal anecdotes, parenthetical jokes, self-deprecation patterns |
 
-### Output format for `voice-style-notes.md`
+### Output format for `./.issue-driven/voice-style-notes.md`
 
 ```markdown
 # Voice/Style Profile (extracted from N prior articles)
@@ -144,4 +144,4 @@ Sentence-by-sentence, match the voice/style profile: ending pattern, hedging, em
 - Does reading just the section headings let you trace the storyline?
 - Does the target reader have the prerequisite knowledge to follow?
 - Tags / categories set (Qiita / Zenn specific)
-- **Voice profile compliance**: spot-check 3 random paragraphs against `voice-style-notes.md`. If any paragraph reads like generic technical writing, rewrite to match.
+- **Voice profile compliance**: spot-check 3 random paragraphs against `./.issue-driven/voice-style-notes.md`. If any paragraph reads like generic technical writing, rewrite to match.

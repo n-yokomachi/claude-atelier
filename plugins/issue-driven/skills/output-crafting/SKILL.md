@@ -13,7 +13,7 @@ The book's final phase. **Be message-driven and shape the output so the reader g
 
 ## Prerequisites
 
-`./issue-driven-state.md` must contain Phase 1 through Phase 4 sections. If any are missing, instruct the user to invoke the corresponding skill first.
+`./.issue-driven/state.md` must contain Phase 1 through Phase 4 sections. If any are missing, instruct the user to invoke the corresponding skill first.
 
 ## Format-agnostic finishing principles
 
@@ -56,29 +56,29 @@ Generate the final artifact. Use a standard technical-writing tone in the artifa
 ### blog
 
 - Markdown file (Qiita / Zenn flavor)
-- Save as `./output-blog.md` in the working directory
+- Save as `./.issue-driven/output-blog.md` in the working directory
 
 ### deck
 
 - Structured outline (Markdown) for each slide
 - Format suitable for transcription into slide tools
-- Save as `./output-deck.md` in the working directory
+- Save as `./.issue-driven/output-deck.md` in the working directory
 
 ### lt
 
 - Pared-down outline of slides
 - Draft of promotional posts (SNS, etc.)
-- Save as `./output-lt.md` in the working directory
+- Save as `./.issue-driven/output-lt.md` in the working directory
 
-After generating, append to the end of `./issue-driven-state.md`:
+After generating, append to the end of `./.issue-driven/state.md`:
 
 ```markdown
 ## Phase 5: Output Crafting (✅ Done YYYY-MM-DD)
 
 ### Generated outputs
-- [ ] blog: ./output-blog.md
-- [ ] deck: ./output-deck.md
-- [ ] lt: ./output-lt.md
+- [ ] blog: ./.issue-driven/output-blog.md
+- [ ] deck: ./.issue-driven/output-deck.md
+- [ ] lt: ./.issue-driven/output-lt.md
 
 ### Pre-publish final check
 - [ ] Main message in issue summary matches main message in final output

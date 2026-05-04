@@ -9,7 +9,7 @@ Support the author's review cycle on a generated artifact (typically the result 
 
 ## Purpose
 
-`output-crafting` produces a draft (e.g. `./output-blog.md`). The author then reviews and edits it directly. This skill governs the review cycle:
+`output-crafting` produces a draft (e.g. `./.issue-driven/output-blog.md`). The author then reviews and edits it directly. This skill governs the review cycle:
 
 - The author edits the artifact directly. **Do not treat author edits as regressions and revert them.**
 - The author may ask questions stemming from gaps in their knowledge or recall of the verification phase. Answer with explicit grounds, not by guessing.
@@ -19,7 +19,7 @@ This is the **final gate before publishing**. Quality of grounding here protects
 
 ## Prerequisites
 
-`./issue-driven-state.md` must contain Phase 5 (Output Crafting) — i.e. the artifact under review must already exist.
+`./.issue-driven/state.md` must contain Phase 5 (Output Crafting) — i.e. the artifact under review must already exist.
 
 ## Operating principles
 
@@ -36,7 +36,7 @@ When the author has modified the artifact since the last AI write:
 
 For every author question, ground the answer in a checkable source:
 
-- `./issue-driven-state.md` (Phase 1〜4 records, Side observations, verification matrices)
+- `./.issue-driven/state.md` (Phase 1〜4 records, Side observations, verification matrices)
 - Generated artifacts (recommendation result JSONs, code, scripts, log files)
 - Public documentation (cite URLs)
 
@@ -85,13 +85,13 @@ Answers should match the question type:
 
 ## Transition
 
-When the author explicitly declares the review complete, append to `./issue-driven-state.md`:
+When the author explicitly declares the review complete, append to `./.issue-driven/state.md`:
 
 ```markdown
 ## Phase 6: Output Review (✅ Done YYYY-MM-DD)
 
 ### Artifact reviewed
-- `./output-blog.md` (or other artifact)
+- `./.issue-driven/output-blog.md` (or other artifact)
 
 ### Notable changes during review
 - [list of substantive changes the author made or requested, or "minor edits only"]
