@@ -74,6 +74,10 @@ Answers should match the question type:
 | **Edit request ("ここを書き換えて")** | Confirm scope → minimal edit → diff summary |
 | **Opinion ("これでいい?")** | Honest opinion with reasoning, not pleasantry. If unsure say so |
 
+## Companion skill: `output-proofread`
+
+`output-review` is **reactive** (author leads, AI answers). For a **proactive** AI-driven exhaustive audit (technical accuracy fact-check + language-specific proofreading) that produces a finding report instead of waiting for the author to spot issues, invoke `issue-driven:output-proofread`. The two are complementary and often used together: run `output-proofread` first to surface a finding list, then use `output-review` for follow-up Q&A and edit dialogs.
+
 ## Anti-patterns (always avoid)
 
 - **Reverting author edits as "fixes"**: Author edits are authoritative. Never silently revert.
