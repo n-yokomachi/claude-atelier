@@ -1,17 +1,17 @@
 {
   "name": "claude-atelier",
   "owner": {
-    "name": "yokomachi"
+    "name": "Naoki Yokomachi"
   },
   "metadata": {
-    "description": "yokomachi's personal Claude Code marketplace (skills & plugins for tech output workflows)"
+    "description": "Naoki Yokomachi's personal Claude Code marketplace (skills & plugins for tech output workflows)"
   },
   "plugins": [
     {
       "name": "cadenza",
       "description": "A 5-phase gated pipeline for technical content creation (blog / deck / LT). Inspired by issue-first thinking in knowledge work, reinterpreted as a phased writing workflow.",
       "author": {
-        "name": "yokomachi"
+        "name": "Naoki Yokomachi"
       },
       "category": "productivity",
       "source": "./plugins/cadenza"

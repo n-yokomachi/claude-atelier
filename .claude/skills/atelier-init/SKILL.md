@@ -1,13 +1,13 @@
 ---
 name: atelier-init
-description: CLaiREハーネスを現在のマシンにインストール。~/.claude/ にシンボリックリンクを作成し、claude-atelier マーケットプレイスを登録、issue-driven プラグイン + skill-creator (公式) を有効化する。初回セットアップ、ハーネスインストール時に使用。
+description: CLaiREハーネスを現在のマシンにインストール。~/.claude/ にシンボリックリンクを作成し、claude-atelier マーケットプレイスを登録、cadenza プラグイン + skill-creator (公式) を有効化する。初回セットアップ、ハーネスインストール時に使用。
 disable-model-invocation: true
 allowed-tools: Bash, Read, Write, Edit, Glob
 ---
 
 # CLaiRE Atelier Installer
 
-このリポジトリのファイルを `~/.claude/` にシンボリックリンクで配置し、`claude-atelier` マーケットプレイスを登録、`issue-driven` プラグインを有効化することで、全プロジェクトで CLaiRE パーソナルエージェントを有効にする。
+このリポジトリのファイルを `~/.claude/` にシンボリックリンクで配置し、`claude-atelier` マーケットプレイスを登録、`cadenza` プラグインを有効化することで、全プロジェクトで CLaiRE パーソナルエージェントを有効にする。
 
 ## 前提条件
 - Windows: 開発者モードが有効であること（設定 → システム → 開発者向け）
@@ -62,7 +62,7 @@ ln -s <repo>/skills ~/.claude/skills
 
 以下の 2 つのプラグインをインストールする:
 
-1. **`issue-driven@claude-atelier`** — 自作の技術アウトプット 5 フェーズパイプライン
+1. **`cadenza@claude-atelier`** — 自作の技術アウトプット 5 フェーズパイプライン
 2. **`skill-creator@claude-plugins-official`** — 公式の Skill 作成・eval・改善ツール
 
 CLI コマンドを Bash で実行する。**`--scope local` を必ず付ける**ことで、マシン固有のパスがプロジェクトの `.claude/settings.local.json` (gitignored) に書かれるようにする。`--scope user`（デフォルト）だと `~/.claude/settings.json` (= 本リポジトリの `dotfiles/settings.json` への symlink、git 管理対象) に書き込まれてしまうので環境ロックインの原因になる。
@@ -84,20 +84,20 @@ if ! claude plugin marketplace list 2>&1 | grep -q "claude-plugins-official"; th
 fi
 
 # プラグインインストール (冪等、必ず --scope local)
-claude plugin install issue-driven@claude-atelier --scope local
+claude plugin install cadenza@claude-atelier --scope local
 claude plugin install skill-creator@claude-plugins-official --scope local
 ```
 
 注意点:
 - パスはOSネイティブ形式でOK（Windows なら `D:\\...`、Unix なら `/home/...`）
 - インストール時にプラグインファイルは `~/.claude/plugins/cache/<marketplace>/<plugin>/<version>/` に**コピー**される（symlink ではない）
-- 自作プラグイン (`issue-driven` 等) の SKILL.md を編集した場合、変更を反映するには `claude plugin marketplace update claude-atelier && claude plugin install issue-driven@claude-atelier --scope local` を再実行する必要がある
+- 自作プラグイン (`cadenza` 等) の SKILL.md を編集した場合、変更を反映するには `claude plugin marketplace update claude-atelier && claude plugin install cadenza@claude-atelier --scope local` を再実行する必要がある
 - 公式プラグイン (`skill-creator` 等) の更新は `claude plugin update skill-creator` で取得
 
 ### Step 4: 検証
 
 1. シンボリックリンクが正しいか `ls -la ~/.claude/` で確認
-2. `claude plugin list` で `issue-driven@claude-atelier` と `skill-creator@claude-plugins-official` が enabled になっているか確認
+2. `claude plugin list` で `cadenza@claude-atelier` と `skill-creator@claude-plugins-official` が enabled になっているか確認
 3. 結果を報告
 
 ### Step 5: 完了報告
@@ -109,8 +109,8 @@ claude plugin install skill-creator@claude-plugins-official --scope local
 3. 動作確認の案内:
    - 「**Claude Code を再起動してください**」（プラグイン読み込みのため必須）
    - 「新しいセッションで `/briefing` でブリーフィングが動くか試してみよう！」
-   - 「`/issue-driven:issue-finding` で技術アウトプット制作ワークフローが起動できるか確認しよう！」
+   - 「`/cadenza:issue-finding` で技術アウトプット制作ワークフローが起動できるか確認しよう！」
    - 「`/skill-creator:skill-creator` でスキル作成・改善ツールが起動できるか確認しよう！」
 4. 開発フローの案内:
    - フラットスキル (`skills/`) は symlink 経由で即時反映される
-   - プラグインスキル (`plugins/<plugin>/skills/`) はキャッシュ方式のため、編集後に `claude plugin marketplace update claude-atelier && claude plugin install issue-driven@claude-atelier` の再実行が必要
+   - プラグインスキル (`plugins/<plugin>/skills/`) はキャッシュ方式のため、編集後に `claude plugin marketplace update claude-atelier && claude plugin install cadenza@claude-atelier` の再実行が必要
