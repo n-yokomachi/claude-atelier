@@ -18,11 +18,11 @@ The deliverable is a finding report. **This skill never edits the artifact silen
 
 ## Prerequisites
 
-- `./.issue-driven/state.md` must contain Phase 5 (Output Crafting) — i.e. the artifact under audit must already exist.
+- `./.cadenza/state.md` must contain Phase 5 (Output Crafting) — i.e. the artifact under audit must already exist.
 - Determine the artifact path:
-  - Default: the path recorded in Phase 5's "Generated outputs" section (typically `./.issue-driven/output-blog.md`, or an author-relocated path such as `~/work/workshop/zenn/articles/<file>.md`).
+  - Default: the path recorded in Phase 5's "Generated outputs" section (typically `./.cadenza/output-blog.md`, or an author-relocated path such as `~/work/workshop/zenn/articles/<file>.md`).
   - If the author specifies a different path, use that.
-- If a voice/style profile exists at `./.issue-driven/voice-style-notes.md`, fold "voice profile compliance" into the audit.
+- If a voice/style profile exists at `./.cadenza/voice-style-notes.md`, fold "voice profile compliance" into the audit.
 
 ## Execution flow
 
@@ -49,7 +49,7 @@ For every factual / technical claim, ask "where is the ground for this?". Treat 
 
 Cross-checking sources, in order of authority:
 
-1. `./.issue-driven/state.md` — Phase 1〜4 records, Side observations, verification matrices.
+1. `./.cadenza/state.md` — Phase 1〜4 records, Side observations, verification matrices.
 2. Generated artifacts in the working repo — code files, scripts, log outputs, JSON results.
 3. Public documentation — fetch with WebFetch when grounded confirmation requires it. Cite the URL.
 
@@ -109,7 +109,7 @@ Flag any deviations as `[VOICE]` findings.
 
 ### Step 4: Produce the finding report
 
-Write a single Markdown report. Default path: `./.issue-driven/proofread-findings-YYYYMMDD.md` (use date suffix when running multiple audits on the same day, append `-N`).
+Write a single Markdown report. Default path: `./.cadenza/proofread-findings-YYYYMMDD.md` (use date suffix when running multiple audits on the same day, append `-N`).
 
 Use this format:
 
@@ -211,8 +211,8 @@ This skill does **not** write to `state.md`. The audit is an artifact, not a pha
 
 If the audit reveals issues too deep to fix by editing alone:
 
-- **Numerous `[WRONG]` findings tracing back to incorrect verification** → return to `issue-driven:analysis-execution` for additional / corrected verification.
-- **`[WRONG]` findings revealing the storyline doesn't match the verified facts** → return to `issue-driven:issue-decomposition` to redesign the storyline.
-- **Pattern of `[UNVERIFIED]` claims that originate from a hand-wavy main message** → return to `issue-driven:issue-finding` to redefine the issue.
+- **Numerous `[WRONG]` findings tracing back to incorrect verification** → return to `cadenza:analysis-execution` for additional / corrected verification.
+- **`[WRONG]` findings revealing the storyline doesn't match the verified facts** → return to `cadenza:issue-decomposition` to redesign the storyline.
+- **Pattern of `[UNVERIFIED]` claims that originate from a hand-wavy main message** → return to `cadenza:issue-finding` to redefine the issue.
 
 In these cases, surface the upstream-return recommendation in the finding report's Summary section.

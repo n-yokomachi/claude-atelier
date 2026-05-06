@@ -1,6 +1,6 @@
 ---
 name: issue-finding
-description: Use during the planning phase of a technical output (blog post, conference talk, LT slides) to narrow down what to write about. Triggers on phrases like "I want to write a blog", "looking for an LT topic", "ブログを書きたい", "登壇ネタを考えたい", "Qiita/Zenn/SpeakerDeck 記事を作りたい" — any conversation about topic selection or planning. Corresponds to the "issue identification" phase from Kazuto Ataka's *Issue-Driven*. Acts as a gate before writing begins.
+description: Use during the planning phase of a technical output (blog post, conference talk, LT slides) to narrow down what to write about. Triggers on phrases like "I want to write a blog", "looking for an LT topic", "ブログを書きたい", "登壇ネタを考えたい", "Qiita/Zenn/SpeakerDeck 記事を作りたい" — any conversation about topic selection or planning. Acts as a gate before writing begins.
 ---
 
 # Issue Finding
@@ -13,7 +13,7 @@ Maximize **issue quality** in the formula `Value = Issue Quality × Solution Qua
 
 ## State file and artifact location
 
-All workflow artifacts (state file, voice/style notes, output files) live under `./.issue-driven/` in the working directory. This skill, being the most upstream phase, creates that directory if it does not exist and writes the state file as `./.issue-driven/state.md`. If the file already exists, ask the user whether to overwrite or append.
+All workflow artifacts (state file, voice/style notes, output files) live under `./.cadenza/` in the working directory. This skill, being the most upstream phase, creates that directory if it does not exist and writes the state file as `./.cadenza/state.md`. If the file already exists, ask the user whether to overwrite or append.
 
 ## Execution flow
 
@@ -51,7 +51,7 @@ If no clear differentiator emerges, propose narrowing the topic or shifting the 
 
 ### Step 4: "Three conditions of a good issue" check
 
-The core judgment criteria from the book. Verify all three are met:
+The core judgment criteria of this workflow. Verify all three are met:
 
 1. **It's an essential choice**: Answering it changes subsequent action, provides a decision criterion, resolves a binary, etc.
 2. **It contains a deep hypothesis**: Structural insight like "overturns common belief", "explains via shared pattern", "explains via opposing relationship".
@@ -79,7 +79,7 @@ When multiple formats are selected, format-specific optimization happens during 
 
 ## Output format
 
-Write the confirmed content to `./.issue-driven/state.md` using this structure (update only this phase's block if the section already exists):
+Write the confirmed content to `./.cadenza/state.md` using this structure (update only this phase's block if the section already exists):
 
 ```markdown
 ## Phase 1: Issue Finding (✅ Done YYYY-MM-DD)
@@ -110,7 +110,7 @@ The state file content itself may be written in the user's working language (Jap
 
 ## Anti-patterns (always avoid)
 
-- **Allowing comprehensive-survey issues**: Topics like "Intro to X", "X summary", "Everything about X" are "bad issues" per the book. Always force narrowing.
+- **Allowing comprehensive-survey issues**: Topics like "Intro to X", "X summary", "Everything about X" fail the issue-quality bar. Always force narrowing.
 - **Letting topics through without primary-source basis**: Articles that "could be written from official docs alone" waste downstream time if not blocked at the planning phase.
 - **Letting vague issues slip into downstream phases**: Even if the user says "let me figure it out as I write", at minimum complete Step 5 (the single-sentence issue).
 - **Accepting the user's first idea as-is**: Always run the three-conditions check.
@@ -125,9 +125,9 @@ This skill is the most upstream — there's nowhere to return to. However, if an
 
 ## Transition to next phase
 
-Once `./.issue-driven/state.md` is written, ask the user:
+Once `./.cadenza/state.md` is written, ask the user:
 
 > ✅ Phase 1 (Issue Finding) is complete. Proceed to `issue-decomposition` (structure design)?
 
-- **Proceed**: Invoke `issue-driven:issue-decomposition` via the Skill tool.
+- **Proceed**: Invoke `cadenza:issue-decomposition` via the Skill tool.
 - **Hold**: Wait for revision instructions. Do not advance.

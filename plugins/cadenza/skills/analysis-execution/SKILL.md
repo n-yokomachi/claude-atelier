@@ -1,6 +1,6 @@
 ---
 name: analysis-execution
-description: Execute the verification work defined in the storyboard (implementation, measurement, benchmarking, diagram creation, etc.). Triggers on phrases like "let me try implementing", "run the benchmark", "verify by actually running it", "実装してみる", "ベンチマーク取る", "実際に動かして確かめたい". Corresponds to the "analysis and verification" phase from Kazuto Ataka's *Issue-Driven*. Acts as a gate against grinding work outside the storyboard's scope.
+description: Execute the verification work defined in the storyboard (implementation, measurement, benchmarking, diagram creation, etc.). Triggers on phrases like "let me try implementing", "run the benchmark", "verify by actually running it", "実装してみる", "ベンチマーク取る", "実際に動かして確かめたい". Acts as a gate against grinding work outside the storyboard's scope.
 ---
 
 # Analysis Execution
@@ -13,7 +13,7 @@ Materialize the visuals, data, and code drawn in the storyboard. The discipline 
 
 ## Prerequisites
 
-The `## Phase 3: Storyboarding` section must exist in `./.issue-driven/state.md`. The "Total verification work" list is the execution target.
+The `## Phase 3: Storyboarding` section must exist in `./.cadenza/state.md`. The "Total verification work" list is the execution target.
 
 ## Execution flow
 
@@ -88,7 +88,7 @@ These are textbook dog's path. If you do anything outside the storyboard, first 
 
 ## Output format
 
-Append the confirmed content to `./.issue-driven/state.md`:
+Append the confirmed content to `./.cadenza/state.md`:
 
 ```markdown
 ## Phase 4: Analysis Execution (✅ Done YYYY-MM-DD)
@@ -124,18 +124,18 @@ Append the confirmed content to `./.issue-driven/state.md`:
 
 ## Upstream-return signals
 
-If any of these signals appears during verification, stop immediately. Ignoring them and continuing per the original plan is the **forecasting trap** the book warns about.
+If any of these signals appears during verification, stop immediately. Ignoring them and continuing per the original plan is a classic **forecasting trap** — sticking to a falsified plan because reframing feels like wasted effort.
 
-- **Result diverges from hypothesis**: The whole storyline may need review → return to `issue-driven:issue-decomposition`.
-- **A new essential question emerges**: A better issue may have been discovered → return to `issue-driven:issue-finding`.
-- **You realize the chosen form won't communicate**: The presentation needs redesign → return to `issue-driven:storyboarding`.
+- **Result diverges from hypothesis**: The whole storyline may need review → return to `cadenza:issue-decomposition`.
+- **A new essential question emerges**: A better issue may have been discovered → return to `cadenza:issue-finding`.
+- **You realize the chosen form won't communicate**: The presentation needs redesign → return to `cadenza:storyboarding`.
 
 ## Transition to next phase
 
-Once `./.issue-driven/state.md` is written, ask the user:
+Once `./.cadenza/state.md` is written, ask the user:
 
 > ✅ Phase 4 (Analysis Execution) is complete. Proceed to `output-crafting` (format-specific finishing)?
 
-- **Proceed**: Invoke `issue-driven:output-crafting` via the Skill tool.
+- **Proceed**: Invoke `cadenza:output-crafting` via the Skill tool.
 - **Hold**: Wait for revision instructions.
 - **Return upstream**: Invoke the corresponding upstream skill if a return signal applies.

@@ -8,7 +8,7 @@ Claude Codeを自分専用の汎用エージェントに育てるプロジェク
 - `dotfiles/` — `~/.claude/` に配置するファイル群（CLAUDE.md, settings.json, statusline-command.sh）
 - `skills/` — `~/.claude/skills/` に配置するフラットなスキル群（`/<name>` で起動）
 - `plugins/` — マーケットプレイス経由で配布するプラグイン群（`/<plugin>:<skill>` で起動）
-  - `plugins/issue-driven/` — 技術アウトプット制作の 5 フェーズパイプライン
+  - `plugins/cadenza/` — 技術アウトプット制作の 5 フェーズパイプライン
 - `.claude-plugin/marketplace.json` — このリポジトリをマーケットプレイス化するマニフェスト
 - `.claude/skills/atelier-init/` — Claude Code設定のデプロイ（プロジェクトレベル）
 - `.claude/skills/terminal-init/` — ターミナル環境構築（プロジェクトレベル）
@@ -25,7 +25,7 @@ Claude Codeを自分専用の汎用エージェントに育てるプロジェク
 |------|---------------------------|---------------------------------------------|
 | 呼び出し | `/<skill>` | `/<plugin>:<skill>` |
 | 配置 | `~/.claude/skills/` への symlink | マーケットプレイス経由 |
-| 例 | `/briefing`, `/worktree-start` | `/issue-driven:issue-finding` |
+| 例 | `/briefing`, `/worktree-start` | `/cadenza:issue-finding` |
 
 ## 外部連携
 | サービス | 方式 |

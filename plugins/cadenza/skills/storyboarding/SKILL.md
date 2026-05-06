@@ -1,6 +1,6 @@
 ---
 name: storyboarding
-description: Design how each sub-issue in the storyline will be shown (code snippets, diagrams, benchmarks, comparison tables, etc.). Triggers on phrases like "how should I include diagrams", "what should the code examples look like", "design the section visuals", "図をどう入れるか", "コード例はどうするか", "セクションごとの見せ方を決めたい". Corresponds to the "storyboarding" phase from Kazuto Ataka's *Issue-Driven*. Acts as a gate before any analysis or implementation begins.
+description: Design how each sub-issue in the storyline will be shown (code snippets, diagrams, benchmarks, comparison tables, etc.). Triggers on phrases like "how should I include diagrams", "what should the code examples look like", "design the section visuals", "図をどう入れるか", "コード例はどうするか", "セクションごとの見せ方を決めたい". Acts as a gate before any analysis or implementation begins.
 ---
 
 # Storyboarding
@@ -9,7 +9,7 @@ Design "what to show" for each sub-issue in the storyline. Before any analysis o
 
 ## Purpose
 
-A core concept from the book: **work backwards from the final output**. By creating the completion image first:
+The central principle of this phase: **work backwards from the final output**. By creating the completion image first:
 
 - Minimize rework in the analysis / implementation phase
 - Concentrate effort on exactly the verification that's needed
@@ -17,7 +17,7 @@ A core concept from the book: **work backwards from the final output**. By creat
 
 ## Prerequisites
 
-The `## Phase 2: Issue Decomposition` section must exist in `./.issue-driven/state.md`. If not, instruct the user to run `issue-driven:issue-decomposition` first.
+The `## Phase 2: Issue Decomposition` section must exist in `./.cadenza/state.md`. If not, instruct the user to run `cadenza:issue-decomposition` first.
 
 ## Execution flow
 
@@ -99,7 +99,7 @@ Check the assembled storyboard:
 
 ## Output format
 
-Append the confirmed content to `./.issue-driven/state.md`:
+Append the confirmed content to `./.cadenza/state.md`:
 
 ```markdown
 ## Phase 3: Storyboarding (✅ Done YYYY-MM-DD)
@@ -136,15 +136,15 @@ Append the confirmed content to `./.issue-driven/state.md`:
 
 Return upstream if any of the following apply:
 
-- No matter the form, no decisive visual emerges to support the main message → storyline is weak (`issue-driven:issue-decomposition`).
-- Required verification is so vast it isn't realistically buildable → issue narrowing was insufficient (`issue-driven:issue-finding`).
+- No matter the form, no decisive visual emerges to support the main message → storyline is weak (`cadenza:issue-decomposition`).
+- Required verification is so vast it isn't realistically buildable → issue narrowing was insufficient (`cadenza:issue-finding`).
 
 ## Transition to next phase
 
-Once `./.issue-driven/state.md` is written, ask the user:
+Once `./.cadenza/state.md` is written, ask the user:
 
 > ✅ Phase 3 (Storyboarding) is complete. Proceed to `analysis-execution` (verification work)?
 
-- **Proceed**: Invoke `issue-driven:analysis-execution` via the Skill tool.
+- **Proceed**: Invoke `cadenza:analysis-execution` via the Skill tool.
 - **Hold**: Wait for revision instructions.
 - **Return upstream**: Invoke the corresponding upstream skill if a return signal applies.

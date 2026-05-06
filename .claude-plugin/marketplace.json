@@ -8,13 +8,13 @@
   },
   "plugins": [
     {
-      "name": "issue-driven",
-      "description": "5-phase pipeline for technical content creation (blog/talk/LT) based on Kazuto Ataka's issue-driven thinking framework",
+      "name": "cadenza",
+      "description": "A 5-phase gated pipeline for technical content creation (blog / deck / LT). Inspired by issue-first thinking in knowledge work, reinterpreted as a phased writing workflow.",
       "author": {
         "name": "yokomachi"
       },
       "category": "productivity",
-      "source": "./plugins/issue-driven"
+      "source": "./plugins/cadenza"
     }
   ]
 }

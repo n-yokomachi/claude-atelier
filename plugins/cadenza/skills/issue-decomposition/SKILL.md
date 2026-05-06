@@ -1,6 +1,6 @@
 ---
 name: issue-decomposition
-description: Decompose a confirmed issue into MECE sub-issues and build a storyline. Triggers on phrases like "help me design the article structure", "decide the table of contents", "build the outline", "記事の構成を考えたい", "目次を決めたい", "アウトラインを作りたい" — any conversation about structural design. Corresponds to the "issue decomposition and storyline design" phase from Kazuto Ataka's *Issue-Driven*. Acts as a gate before writing begins.
+description: Decompose a confirmed issue into MECE sub-issues and build a storyline. Triggers on phrases like "help me design the article structure", "decide the table of contents", "build the outline", "記事の構成を考えたい", "目次を決めたい", "アウトラインを作りたい" — any conversation about structural design. Acts as a gate before writing begins.
 ---
 
 # Issue Decomposition
@@ -13,7 +13,7 @@ Skeletal design for raising solution quality. Complete the logical structure its
 
 ## Prerequisites
 
-The `## Phase 1: Issue Finding` section must exist in `./.issue-driven/state.md`. If it doesn't, instruct the user to run `issue-driven:issue-finding` first.
+The `## Phase 1: Issue Finding` section must exist in `./.cadenza/state.md`. If it doesn't, instruct the user to run `cadenza:issue-finding` first.
 
 ## Execution flow
 
@@ -96,7 +96,7 @@ If any check fails, repeat Steps 1–3.
 
 ## Output format
 
-Append the confirmed content to `./.issue-driven/state.md` (update the block if it exists):
+Append the confirmed content to `./.cadenza/state.md` (update the block if it exists):
 
 ```markdown
 ## Phase 2: Issue Decomposition (✅ Done YYYY-MM-DD)
@@ -128,7 +128,7 @@ Append the confirmed content to `./.issue-driven/state.md` (update the block if 
 
 ## Upstream-return signals
 
-Return to `issue-driven:issue-finding` if any of the following apply:
+Return to `cadenza:issue-finding` if any of the following apply:
 
 - No matter how you decompose, you can't get to MECE / sub-issues overlap → the issue itself is vaguely articulated.
 - The main message comes out weak or generic → the issue lacks a "deep hypothesis".
@@ -136,10 +136,10 @@ Return to `issue-driven:issue-finding` if any of the following apply:
 
 ## Transition to next phase
 
-Once `./.issue-driven/state.md` is written, ask the user:
+Once `./.cadenza/state.md` is written, ask the user:
 
 > ✅ Phase 2 (Issue Decomposition) is complete. Proceed to `storyboarding` (visualization design)?
 
-- **Proceed**: Invoke `issue-driven:storyboarding` via the Skill tool.
+- **Proceed**: Invoke `cadenza:storyboarding` via the Skill tool.
 - **Hold**: Wait for revision instructions.
-- **Return upstream**: If a return signal applies, invoke `issue-driven:issue-finding`.
+- **Return upstream**: If a return signal applies, invoke `cadenza:issue-finding`.

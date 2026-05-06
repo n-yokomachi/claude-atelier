@@ -14,7 +14,8 @@
       "mcp__claude_ai_Slack__*",
       "Bash(git diff:*)",
       "Bash(gh pr:*)"
-    ]
+    ],
+    "defaultMode": "auto"
   },
   "model": "opus[1m]",
   "hooks": {
@@ -57,7 +58,7 @@
     "command": "bash ~/.claude/statusline-command.sh"
   },
   "enabledPlugins": {
-    "issue-driven@claude-atelier": true,
+    "cadenza@claude-atelier": true,
     "skill-creator@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
@@ -70,5 +71,8 @@
   },
   "effortLevel": "xhigh",
   "autoUpdatesChannel": "stable",
-  "voiceEnabled": true
+  "skipAutoPermissionPrompt": true,
+  "voiceEnabled": true,
+  "remoteControlAtStartup": true,
+  "agentPushNotifEnabled": true
 }
