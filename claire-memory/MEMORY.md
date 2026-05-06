@@ -27,6 +27,7 @@
 - **文脈の前提が変わったら即時に再評価できる**: 「1から書くんだから recreate とか考える必要ある？」のように、私が古い文脈の制約を引きずっているのを即指摘して再評価を促す。前提の変化を見逃さない。
 - **自分の前提も含めて仕様確認を怠らない**: 私（CLaiRE）が「○○記法は使える」と何度も言及した後でも「ほんとに？調査して」と確認を依頼する。私の発言も鵜呑みにしない。文献確認・公式情報重視の癖がある。
 - **命名の明瞭さに対する美意識（公式名称重視）**: 略語・俗称・AI 造語（"recoms" "control bundle" 等）に違和感を覚えて「もう少しわかりやすく」「公式の正式名称を使って」と即指摘できる。一目で意図が伝わる命名を好む。文書執筆時は私が独自合成した用語を発見すると「君が作った言葉？AWS公式？」と由来を確認 → 公式ドキュメント再精読 → 一括置換を依頼するサイクルを回す。「自分の前提も含めて仕様確認を怠らない」癖と表裏一体。
+- **プロジェクト命名の独自フォーマット**: 「**ai を小文字埋め込み × 大文字スケルトン**」型の命名規則を持つ（例: TONaRi, CRaiRE, aiTHRA）。さらに「**ダブル/トリプルミーニング**」を重視── 名前自体が複数の意味レイヤー（神話・自然言語・概念）を内包することを好む。ai は隣接でも分離でもよい。候補出しでは「微妙」「もうちょっと○○寄り」と方向性フィードバックで絞り込むスタイル。
 - **メタな運用基盤も育てる視点**: 使う道具（メモリー機能、CLAUDE.md ルール、skill 設計）そのものを「使いながら気づいたら即改善依頼」するサイクルを回す。肥大化や負債化を未然に防ぐ運用ルール（例: メモリーは追記だけでなく削除も意識、変更後は即 push してマルチデバイス同期）を先回りで設計できる。1セッション内に複数の運用改善依頼が積み重なることもある。**特に強い習慣として、セッション中に AI が踏んだ罠・逸脱を、その場で skill 自体に anti-pattern / 新ステップとして反映させる**（例: 「方針逸脱時は明示確認」を analysis-execution の anti-pattern に追加、「voice/style mimicry」を output-crafting に追加、「review サイクル」を新 skill として追加 等）。同じ罠を次回以降も踏まないよう skill レベルで対策する徹底ぶり。
 - **エラーログの literal を信じる規律**: AI の推測（例: 「日本語が原因かも」）が走り出したら「unsafe ってログに出てるの？言語の問題とは思えない」と literal 確認を要求する。1 次情報を見ずに推論で詰めるのを許さない。同様に「同事象が他で報告されていないか Web 調査して」と他者報告の確認も習慣化。
 - **多言語マルチプラットフォーム発信**: 同一記事を Zenn 日本語版と dev.to 英語版で dual-publishing する流派。`zenn/devto/` を Zenn リポジトリ配下のサブディレクトリとして運用し、Zenn-style frontmatter のまま draft 管理 → 実投稿時に dev.to 形式へ手動調整。画像は Zenn 公開後に dev.to へ別途アップロードして URL を貼り替える手順。
@@ -40,10 +41,22 @@
 - **AgentCore ツール**: AgentCore CLI 正式版（`@aws/agentcore`、npm install -g、Node.js ベース）を使用。legacy の `bedrock-agentcore-starter-toolkit` (Python) は新規プロジェクトでは使わない方針。
 - **フロント**: Next.js, TypeScript, React Hook Form, Zod, Tailwind CSS, Three.js, VRM
 - **バック**: Python 3.13 + uv + pytest（Lambda 標準）, Strands Agents
-- **AI**: Claude Code（VS Code 拡張版利用、Skills/Subagent/メモリー機能）, Bedrock Claude
+- **AI（クラウド）**: Claude Code（VS Code 拡張版利用、Skills/Subagent/メモリー機能）, Bedrock Claude
+- **AI（ローカル）**: Ollama 想定、Hermes Agent（Nous Research）でのエージェント実装に関心。abliterated / uncensored 系モデル志向（過剰な拒否を嫌う）
 - **品質**: ESLint, TDD
 - **発信**: Zenn 技術ブロガー
-- **保有プロジェクト**: TONaRi（`D:\work\Workshops\tonari`、Strands ベースのマルチエージェント実装）
+- **保有プロジェクト**:
+  - TONaRi（`D:\work\Workshops\tonari`、Strands ベースのマルチエージェント実装）
+  - aiTHRA（`D:\work\Workshops\aithra`、Hermes Agent + ローカルLLM の日常サポート / 雑談エージェント）
+
+## ハードウェア環境（メイン機）
+
+- メーカー / モデル: Thirdwave XA7C-R47-C（GALLERIA系）
+- CPU: Intel Core i7-14700F（20C/28T）
+- RAM: 32GB DDR4-3200
+- GPU: NVIDIA GeForce RTX 4070 / **VRAM 12GB**（Compute 8.9 / Ada Lovelace）
+- ストレージ: C: 930GB（残約113GB） / **D: 3.7TB（残約362GB、作業用）**
+- → ローカルLLMは 14B クラスまでフルGPU、30B クラスは partial offload で実用可。70B 以上は不可。
 
 ## コミュニケーションの好み
 
