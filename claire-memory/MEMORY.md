@@ -42,24 +42,11 @@
 - **フロント**: Next.js, TypeScript, React Hook Form, Zod, Tailwind CSS, Three.js, VRM
 - **バック**: Python 3.13 + uv + pytest（Lambda 標準）, Strands Agents
 - **AI（クラウド）**: Claude Code（VS Code 拡張版利用、Skills/Subagent/メモリー機能）, Bedrock Claude
-- **AI（ローカル）**: 検証済み・現在は未運用。Ollama + Hermes Agent（Nous Research）でローカルエージェント構築を一度試したが、用途（雑談・パートナー的会話）に対する 12B〜14B 級モデルの安定性に納得できず撤収（詳細は下の「技術的学び」セクション）。abliterated / uncensored 系モデル志向（過剰な拒否を嫌う）。再挑戦時には 24B+ クラスや RP 特化のより新しい候補を選び直す方針。
+- **AI（ローカル）**: Ollama / Hermes Agent（Nous Research）に関心あり。abliterated / uncensored 系モデル志向（過剰な拒否を嫌う）。
 - **品質**: ESLint, TDD
 - **発信**: Zenn 技術ブロガー
 - **保有プロジェクト**:
   - TONaRi（`D:\work\Workshops\tonari`、Strands ベースのマルチエージェント実装）
-
-## 技術的学び（過去検証から得た durable な知見）
-
-### ローカル LLM + エージェント運用（aiTHRA 検証 2026-05、撤収済み）
-
-- **Hermes Agent は native Windows で動く**（README は WSL2 推奨だが、uv venv + Python 3.11 + selective extras `[cli,mcp,pty,cron,honcho]` で問題なく起動）。voice / matrix / messaging extras は Linux 依存があるので避ける。
-- **Hermes Agent は context_length 64K 以上が必須**。Qwen2.5（ネイティブ 32K）を使う場合は `model.context_length` / `model.ollama_num_ctx` / `auxiliary.compression.context_length` の3つをすべて 65536 に override 必要。
-- **Hermes の `custom` プロバイダ**（alias: `ollama` / `local` / `vllm` / `llamacpp`）でローカル Ollama 直結可。`provider: custom` + `base_url: http://localhost:11434/v1` 推奨（alias より canonical 名のほうが安定）。
-- **Qwen2.5 14B abliterated（huihui-ai 版）の限界**: abliteration は「拒否方向ベクトル」のみ除去するため、敬語固執・assistant tic（menu of services / 「〜してくださいね」）は剥がれない。日本語の自然なタメ口会話・パートナー的会話には不向き。
-- **Magnum v4 12B（Mistral Nemo ベース RP fine-tune）の限界**: タメ口・キャラ性の獲得は劇的に改善するが、12B 級では応答の安定性が低い ── 簡単な挨拶で AI assistant モードに退行したり、ハルシネーションで他人の情報を語ったり、SOUL.md の細かい指定（一人称・呼称）を守らない。短い character-card 形式の方が長い英語 system prompt より効果的かもしれない。
-- **総合判断**: ローカル 12B 級は「試して遊ぶ」には十分だが「日常運用するパートナー」としては不安定。次回検証時は 24B+（Cydonia 22B 等の Mistral Small ベース RP）か、英語ベースなら Stheno v3.2 8B（Llama 3 RP）あたりから試すのが現実的。
-- **Ollama の `OLLAMA_MODELS` env var の罠**: Windows 版 Ollama は tray app が自動起動してデフォルト env で serve を立てるため、User scope に env を設定しても tray app が掴んでいる serve には反映されない。`Stop-Process -Name "ollama*" -Force` で全停止 → `$env:OLLAMA_MODELS` を process scope で明示 → `Start-Process` で再起動、の手順が必要。
-- **C ドライブ（残約 113GB）の制約**: モデル保存先を `D:\ollama\models` に固定しないと C: の容量を圧迫する。
 
 ## ハードウェア環境（メイン機）
 
