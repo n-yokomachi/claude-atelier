@@ -42,7 +42,7 @@
 - **フロント**: Next.js, TypeScript, React Hook Form, Zod, Tailwind CSS, Three.js, VRM
 - **バック**: Python 3.13 + uv + pytest（Lambda 標準）, Strands Agents
 - **AI（クラウド）**: Claude Code（VS Code 拡張版利用、Skills/Subagent/メモリー機能）, Bedrock Claude
-- **AI（ローカル）**: Ollama 想定、Hermes Agent（Nous Research）でのエージェント実装に関心。abliterated / uncensored 系モデル志向（過剰な拒否を嫌う）
+- **AI（ローカル）**: Ollama（`OLLAMA_MODELS=D:\ollama\models` で `D:` 配下に保存）、Hermes Agent（Nous Research、Python 3.11 + uv、Windows 非公式サポートだが `[cli,mcp,pty,cron,honcho]` extras で uv pip install すれば native Windows 動作可）。abliterated / uncensored 系モデル志向（過剰な拒否を嫌う、agent ループ安定化目的）。デフォルトモデル: `huihui_ai/qwen2.5-abliterate:14b`（VRAM 12GB で 47 t/s 実測）。Hermes 側は `provider: custom` + `base_url: http://localhost:11434/v1` で接続、context_length / ollama_num_ctx / auxiliary.compression.context_length をすべて 65536 に override する必要あり（Hermes は 64K min 要件、Qwen2.5 ネイティブ 32K を YaRN 拡張）
 - **品質**: ESLint, TDD
 - **発信**: Zenn 技術ブロガー
 - **保有プロジェクト**:
