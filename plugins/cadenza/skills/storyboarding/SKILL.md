@@ -47,32 +47,32 @@ For each chosen form, fix the concrete spec:
 
 At this stage, **do not implement or measure yet**. Only design what to show.
 
-### Step 3: Format-specific optimization
+### Step 3: Output-style adjustment
 
-Adjust the storyboard based on the intended output format(s) confirmed in Phase 1.
+Adjust the storyboard based on the dominant output style. The cadenza workflow produces a single Markdown artifact (`./.cadenza/output.md`) — downstream publishing decides the final platform — but the storyboard itself should still anticipate which style the artifact will primarily serve:
 
-#### blog (Qiita / Zenn)
+#### Long-form prose (article, documentation, deep-dive)
 
 - Section = sub-issue mapping for headings
 - Code blocks should run as-is (copy-paste runnable)
 - Diagrams support the prose (prose is primary)
 - Aim for one main visual per section
 
-#### deck (SpeakerDeck)
+#### Slide-style presentation (deck, structured talk)
 
-- One slide, one message
-- Storyboard per slide (title + visual + caption)
-- Minimal text; verbal narration is the supplement
-- Include agenda and transition slides in the storyboard
+- One section, one message
+- Storyboard per section (title + visual + caption)
+- Minimal text; the visual is primary
+- Include agenda / transition framings in the storyboard
 
-#### lt (short-form)
+#### Short-form / time-budgeted (LT, lightning summary)
 
-- Slide count derived from time budget (rule of thumb: 30s–1min per slide)
-- Main-message slide always stands alone
-- Code is image-based (IDE-style screenshot, Carbon, etc.)
+- Section count derived from time budget (rule of thumb: 30s–1min per section)
+- Main-message section always stands alone
+- Code is image-based or pared down (impact over coverage)
 - Cut what can be cut (impact over coverage)
 
-For multiple formats derived from the same material, build separate storyboards per format (even if much overlaps, separate them explicitly).
+These are storyboard-level shapes only; the actual platform-specific finishing (Zenn frontmatter, SpeakerDeck Marp directives, etc.) happens at publishing time, downstream of the cadenza workflow.
 
 ### Step 4: Build the storyboard sheet
 
@@ -104,8 +104,8 @@ Append the confirmed content to `./.cadenza/state.md`:
 ```markdown
 ## Phase 3: Storyboarding (✅ Done YYYY-MM-DD)
 
-### Intended output format(s)
-[One or more of: blog, deck, lt]
+### Dominant output style
+[long-form prose / slide presentation / short-form]
 
 ### Storyboard list
 

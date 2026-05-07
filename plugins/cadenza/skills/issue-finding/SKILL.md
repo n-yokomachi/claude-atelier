@@ -67,16 +67,6 @@ Once all three conditions are met, fix the issue as a single sentence in this fo
 
 Present this sentence explicitly in the conversation and get the user's agreement. Subsequent phases use this sentence as the basis.
 
-### Step 6: Confirm intended output format(s)
-
-Pick one or more from the following. If multiple are derived from the same material, list all of them:
-
-- `blog` (Qiita / Zenn or similar technical blog)
-- `deck` (SpeakerDeck-style conference deck)
-- `lt` (LT / short-form slides)
-
-When multiple formats are selected, format-specific optimization happens during storyboarding and final output crafting.
-
 ## Output format
 
 Write the confirmed content to `./.cadenza/state.md` using this structure (update only this phase's block if the section already exists):
@@ -101,9 +91,6 @@ Write the confirmed content to `./.cadenza/state.md` using this structure (updat
 
 ### Differentiator
 [How this differs from existing content]
-
-### Intended output format(s)
-[One or more of: blog, deck, lt]
 ```
 
 The state file content itself may be written in the user's working language (Japanese is fine if the user writes in Japanese).

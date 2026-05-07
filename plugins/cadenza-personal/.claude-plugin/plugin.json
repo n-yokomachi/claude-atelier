@@ -1,0 +1,8 @@
+{
+  "name": "cadenza-personal",
+  "description": "Personal extension to cadenza: takes ./.cadenza/output.md (the format-agnostic Markdown produced by cadenza) and finishes it for specific publishing targets (Zenn / deck-style markdown for AI slide tools / LT). Not for OSS distribution.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Naoki Yokomachi"
+  }
+}

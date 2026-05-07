@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.3.0] - 2026-05-07
+
+### Changed
+
+- **`output-crafting` now produces a single, format-agnostic Markdown file** (`./.cadenza/output.md`) instead of multiple format-specific files. Platform-specific finishing (Zenn frontmatter, SpeakerDeck/Marp directives, LT-specific compression) is now downstream of the cadenza workflow.
+- **`issue-finding`**: removed Step 6 (intended output format selection) — the workflow is now format-agnostic at the planning phase.
+- **`issue-decomposition`**: storyline pattern recommendation no longer references intended output format.
+- **`storyboarding`**: Step 3 reframed from blog/deck/lt to dominant output style (long-form prose / slide presentation / short-form). The platform-specific finishing notes have been removed.
+- **`output-proofread`** / **`output-review`**: path references updated from `./.cadenza/output-blog.md` etc. to `./.cadenza/output.md`.
+- This repository is now self-contained as a Claude Code marketplace. A top-level `.claude-plugin/marketplace.json` allows direct install via `claude plugin marketplace add github.com/n-yokomachi/cadenza`.
+- Added top-level `LICENSE` (MIT) and OSS-facing `README.md`.
+
+### Removed
+
+- `skills/output-crafting/references/{blog,deck,lt}.md`: format-specific finishing references. Equivalent functionality moved out of the OSS plugin.
+
 ## [0.2.0] - 2026-05-06
 
 ### Changed

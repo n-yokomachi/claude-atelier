@@ -9,7 +9,7 @@ Support the author's review cycle on a generated artifact (typically the result 
 
 ## Purpose
 
-`output-crafting` produces a draft (e.g. `./.cadenza/output-blog.md`). The author then reviews and edits it directly. This skill governs the review cycle:
+`output-crafting` produces a draft (e.g. `./.cadenza/output.md`). The author then reviews and edits it directly. This skill governs the review cycle:
 
 - The author edits the artifact directly. **Do not treat author edits as regressions and revert them.**
 - The author may ask questions stemming from gaps in their knowledge or recall of the verification phase. Answer with explicit grounds, not by guessing.
@@ -95,7 +95,7 @@ When the author explicitly declares the review complete, append to `./.cadenza/s
 ## Phase 6: Output Review (✅ Done YYYY-MM-DD)
 
 ### Artifact reviewed
-- `./.cadenza/output-blog.md` (or other artifact)
+- `./.cadenza/output.md` (or other artifact)
 
 ### Notable changes during review
 - [list of substantive changes the author made or requested, or "minor edits only"]

@@ -8,10 +8,12 @@ Claude Codeを自分専用の汎用エージェントに育てるプロジェク
 - `dotfiles/` — `~/.claude/` に配置するファイル群（CLAUDE.md, settings.json, statusline-command.sh）
 - `skills/` — `~/.claude/skills/` に配置するフラットなスキル群（`/<name>` で起動）
 - `plugins/` — マーケットプレイス経由で配布するプラグイン群（`/<plugin>:<skill>` で起動）
-  - `plugins/cadenza/` — 技術アウトプット制作の 5 フェーズパイプライン
+  - `plugins/cadenza/` — 技術アウトプット制作の 5 フェーズパイプライン（**OSS 公開対象**、`github.com/n-yokomachi/cadenza` に subtree split で自動 publish）
+  - `plugins/cadenza-personal/` — cadenza の出力を Zenn / deck / LT に仕上げる**個人専用拡張**（公開しない）
 - `.claude-plugin/marketplace.json` — このリポジトリをマーケットプレイス化するマニフェスト
 - `.claude/skills/atelier-init/` — Claude Code設定のデプロイ（プロジェクトレベル）
 - `.claude/skills/terminal-init/` — ターミナル環境構築（プロジェクトレベル）
+- `.github/workflows/publish-cadenza.yml` — `plugins/cadenza/` を OSS public mirror に自動 publish（main push トリガ）
 
 ## 開発フロー
 1. `skills/` `plugins/` `dotfiles/` のファイルを編集
@@ -25,7 +27,7 @@ Claude Codeを自分専用の汎用エージェントに育てるプロジェク
 |------|---------------------------|---------------------------------------------|
 | 呼び出し | `/<skill>` | `/<plugin>:<skill>` |
 | 配置 | `~/.claude/skills/` への symlink | マーケットプレイス経由 |
-| 例 | `/briefing`, `/worktree-start` | `/cadenza:issue-finding` |
+| 例 | `/briefing`, `/worktree-start` | `/cadenza:issue-finding`, `/cadenza-personal:output-publish` |
 
 ## 外部連携
 | サービス | 方式 |

@@ -70,7 +70,7 @@ Best for technical blogs and explanatory articles.
 
 Best for LTs and conference talks (time-constrained, designed to be remembered).
 
-Recommend based on the intended output format(s) confirmed in Phase 1. When multiple formats are derived from the same material, pick one base storyline; format-specific adjustments happen in the final crafting phase.
+Pick the pattern that best matches your storyline's purpose. **Sky-Rain-Umbrella** is the default for explanatory writing; **Parallel reinforcement** for time-constrained or memorability-first delivery. The choice doesn't have to be exclusive — adopt the dominant frame and use the other locally as needed.
 
 ### Step 4: Fix the main message
 

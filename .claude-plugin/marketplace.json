@@ -9,12 +9,21 @@
   "plugins": [
     {
       "name": "cadenza",
-      "description": "A 5-phase gated pipeline for technical content creation (blog / deck / LT). Inspired by issue-first thinking in knowledge work, reinterpreted as a phased writing workflow.",
+      "description": "A 5-phase gated pipeline for technical content creation. Each phase acts as a gate, enforcing think-before-write discipline. Produces a single format-agnostic Markdown output. Inspired by issue-first thinking in knowledge work.",
       "author": {
         "name": "Naoki Yokomachi"
       },
       "category": "productivity",
       "source": "./plugins/cadenza"
+    },
+    {
+      "name": "cadenza-personal",
+      "description": "Personal extension to cadenza: takes the format-agnostic output.md and finishes it for specific publishing targets (Zenn / deck-style markdown for AI slide tools / LT). Not for OSS distribution.",
+      "author": {
+        "name": "Naoki Yokomachi"
+      },
+      "category": "productivity",
+      "source": "./plugins/cadenza-personal"
     }
   ]
 }

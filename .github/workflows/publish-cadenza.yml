@@ -1,0 +1,42 @@
+name: Publish cadenza to public mirror
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'plugins/cadenza/**'
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout claude-atelier
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure git identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Subtree split plugins/cadenza into a standalone branch
+        run: |
+          git subtree split --prefix=plugins/cadenza -b cadenza-public
+
+      - name: Force-push to n-yokomachi/cadenza public repo
+        env:
+          PUBLISH_TOKEN: ${{ secrets.CADENZA_PUBLISH_TOKEN }}
+        run: |
+          if [ -z "$PUBLISH_TOKEN" ]; then
+            echo "::error::CADENZA_PUBLISH_TOKEN secret is not set."
+            echo "Create a fine-grained Personal Access Token with 'Contents: Read and write' on n-yokomachi/cadenza,"
+            echo "then add it as repository secret CADENZA_PUBLISH_TOKEN on this repository."
+            exit 1
+          fi
+          git push --force \
+            "https://x-access-token:${PUBLISH_TOKEN}@github.com/n-yokomachi/cadenza.git" \
+            cadenza-public:main

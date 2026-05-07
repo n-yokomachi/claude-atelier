@@ -1,129 +1,82 @@
 # cadenza
 
-A 5-phase skill pipeline for technical content creation (blog posts, conference decks, LT slides). Each phase acts as a gate, enforcing think-before-write discipline. Distributed as a Claude Code plugin.
+A Claude Code plugin that turns "I want to write a blog post / talk / LT" into a disciplined, gated pipeline. Each phase — *find the issue → decompose → storyboard → verify → craft* — acts as a gate, blocking premature writing and forcing the author to clarify the question before producing the answer.
 
-The name **cadenza** comes from the classical-music term for the structured-yet-expressive solo passage in a concerto — a fitting metaphor for a workflow where each phase is a disciplined step, and the final output is the author's own voice.
+The name *cadenza* comes from the classical-music term for the structured-yet-expressive solo passage in a concerto: each phase is a disciplined step, but the final output is the author's own voice.
 
-## Overview
+## Install
 
-Technical-output creation is broken into 5 phases, each provided as an independent skill. Each skill takes the previous phase's output (aggregated in `./.cadenza/state.md`) as input and appends its own deliverable to the same file.
-
-```
-[Plan]   /cadenza:issue-finding         → Issue summary
-              ↓
-[Design] /cadenza:issue-decomposition   → Storyline + main message
-              ↓
-[Show]   /cadenza:storyboarding         → Storyboard sheet
-              ↓
-[Verify] /cadenza:analysis-execution    → Verification result summary
-              ↓
-[Finish] /cadenza:output-crafting       → Final output (blog/deck/lt)
-```
-
-Two additional review skills run after `output-crafting`:
-
-- `/cadenza:output-proofread` — AI-driven exhaustive accuracy + language audit
-- `/cadenza:output-review` — author-led review-cycle support
-
-## Skill roles
-
-| Phase | Skill | Role | Gate function |
-|-------|-------|------|--------------|
-| 1. Plan | `issue-finding` | Identify "what question is worth answering" | Block topics without primary-source basis or comprehensive-survey topics |
-| 2. Design | `issue-decomposition` | Decompose into sub-issues and design the storyline | Block writing without structure |
-| 3. Show | `storyboarding` | Design how each sub-issue is shown | Block divergent verification |
-| 4. Verify | `analysis-execution` | Implement / measure / draw per the storyboard | Block exhaustive grinding |
-| 5. Finish | `output-crafting` | Format-specific finishing | Enforce message-driven output |
-
-## Usage patterns
-
-### Pattern 1: Sequential (recommended)
-
-Run from planning to finishing for a new piece. Each skill, on completion, asks the user "proceed to next phase?" and invokes the next skill via the Skill tool on confirmation.
-
-### Pattern 2: Partial execution
-
-If planning is already done, start from a downstream phase. The downstream skill checks the state file for the prerequisite phase's section and instructs the user to back-fill if missing.
-
-### Pattern 3: Upstream return
-
-If a downstream phase reveals the upstream premise has collapsed (e.g., verification result diverges from hypothesis), don't hesitate to return upstream. Each skill's "Upstream-return signals" section lists the criteria.
-
-## State management
-
-The whole workflow uses `./.cadenza/state.md` in the working directory as a shared state file. All workflow artifacts are isolated under `./.cadenza/`.
-
-- Each skill appends / updates its own phase section (`## Phase N: ...`).
-- Downstream skills check upstream sections as a precondition.
-- Working in a different project directory naturally isolates state.
-
-Final outputs are saved alongside the state file:
-
-- `./.cadenza/output-blog.md`
-- `./.cadenza/output-deck.md`
-- `./.cadenza/output-lt.md`
-
-## Design notes
-
-- **Each skill is a gate**: Each holds a precondition that must be satisfied before downstream work begins.
-- **Anti-patterns are explicit**: Each phase calls out the failure modes it tends to fall into and instructs to avoid them.
-- **Format-specific optimization**: Blog / deck / LT each have their own conventions (the `output-crafting` flows are split into `references/{blog,deck,lt}.md`).
-- **Discipline of narrowing**: Every phase explicitly lists "what NOT to do".
-- **Handoff via state file**: Removes manual copy-paste from the user.
-
-## Applicable surfaces
-
-- Qiita / Zenn or similar technical blogs
-- SpeakerDeck-style conference decks
-- LT / short-form slides
-- Combinations of the above (one source material → multiple formats)
-
-## Directory layout
-
-```
-cadenza/
-├── .claude-plugin/
-│   └── plugin.json
-├── README.md
-├── CHANGELOG.md
-├── skills/
-│   ├── issue-finding/SKILL.md
-│   ├── issue-decomposition/SKILL.md
-│   ├── storyboarding/SKILL.md
-│   ├── analysis-execution/SKILL.md
-│   ├── output-crafting/
-│   │   ├── SKILL.md
-│   │   └── references/
-│   │       ├── blog.md
-│   │       ├── deck.md
-│   │       └── lt.md
-│   ├── output-proofread/SKILL.md
-│   └── output-review/SKILL.md
-└── tests/
-    └── README.md
-```
-
-## Development workflow
-
-Plugin skills are **copied** at install time into `~/.claude/plugins/cache/claude-atelier/cadenza/<version>/`, not symlinked. Edits to source `SKILL.md` files do not auto-reflect.
-
-To reflect edits:
+This repository is itself a Claude Code marketplace. Add it and install the `cadenza` plugin:
 
 ```bash
-claude plugin marketplace update claude-atelier
-claude plugin install cadenza@claude-atelier --scope local
+claude plugin marketplace add github.com/n-yokomachi/cadenza
+claude plugin install cadenza@cadenza
 ```
 
 Then restart Claude Code.
 
+## What it does
+
+Once installed, the plugin exposes 7 skills, callable as slash commands:
+
+| Phase | Skill | Role |
+|-------|-------|------|
+| 1. Plan | `/cadenza:issue-finding` | Identify "what question is worth answering" |
+| 2. Design | `/cadenza:issue-decomposition` | Decompose into sub-issues, design the storyline |
+| 3. Show | `/cadenza:storyboarding` | Design how each sub-issue is shown |
+| 4. Verify | `/cadenza:analysis-execution` | Implement / measure / draw per the storyboard |
+| 5. Finish | `/cadenza:output-crafting` | Produce the final Markdown artifact |
+| Review | `/cadenza:output-proofread` | AI-driven exhaustive accuracy + language audit |
+| Review | `/cadenza:output-review` | Author-led review-cycle support |
+
+Each skill, on completion, asks "proceed to next phase?" and chains to the next skill on confirmation. State is shared via `./.cadenza/state.md` in the working directory. The final artifact is written to `./.cadenza/output.md`.
+
+## What you do with `output.md`
+
+cadenza deliberately produces a **single, format-agnostic Markdown file**. Platform-specific finishing — Zenn frontmatter, SpeakerDeck Marp directives, LT-specific compression — is left to downstream tooling so this plugin stays useful regardless of where you publish.
+
+Some common downstream paths:
+
+- **Blog posts (Qiita / Zenn / dev.to / personal blog)**: copy `output.md` into your blog repo, add platform-specific frontmatter, adjust syntax (`:::message` for Zenn, etc.).
+- **Conference decks / LT slides**: feed `output.md` to an AI slide-generation tool (Claude Design, Gamma, etc.) which can consume the structured Markdown and produce visual slides.
+- **Documentation**: drop `output.md` into your docs folder as-is.
+
+## Why "gated"
+
+Without this kind of plugin, Claude Code is happy to start writing the moment you ask. That's helpful for short tasks, but for technical content — blog posts, conference talks — it produces drafts that look fine and read fluently, but rest on questions that were never sharpened. *cadenza* deliberately slows that down: each phase has explicit anti-patterns and "upstream-return signals" that force you to revisit earlier decisions when something downstream reveals the foundation was weak.
+
 ## Inspiration
 
-The phased structure of this workflow draws on the issue-first thinking tradition that has been popularized in Japanese knowledge-work literature — most notably in Kazuto Ataka's *『イシューからはじめよ』* (Eiji Press, 2010). That tradition established the now-common idea that the quality of an output is gated more by the quality of the question being answered than by the effort spent on the answer.
+The phased structure draws on the issue-first thinking tradition popularized in Japanese knowledge-work literature — most notably in Kazuto Ataka's *『イシューからはじめよ』* (Eiji Press, 2010). That tradition established the now-common idea that the quality of an output is gated more by the quality of the question being answered than by the effort spent on the answer.
 
-This plugin is **not an implementation of any specific book or framework**, and is not affiliated with or endorsed by any author or publisher. It is an independent reinterpretation that takes the general principle — *narrow the question before writing the answer* — and adapts it to the specific context of technical content creation (blog posts, decks, LTs), expressed as a Claude Code skill pipeline.
+This plugin is **not an implementation of any specific book or framework**, and is not affiliated with or endorsed by any author or publisher. It is an independent reinterpretation that takes the general principle — *narrow the question before writing the answer* — and adapts it to the specific context of technical content creation, expressed as a Claude Code skill pipeline.
 
 For readers interested in the broader thinking-method literature, the Ataka book is one well-known starting point, alongside English-language traditions such as Minto's pyramid principle and the McKinsey "Sky-Rain-Umbrella" framing.
 
+## Repository structure
+
+```
+cadenza/
+├── .claude-plugin/
+│   ├── marketplace.json     ← this repo as a Claude Code marketplace
+│   └── plugin.json          ← the plugin manifest
+├── README.md                 ← you are here
+├── CHANGELOG.md
+├── LICENSE                   ← MIT
+└── skills/
+    ├── issue-finding/SKILL.md
+    ├── issue-decomposition/SKILL.md
+    ├── storyboarding/SKILL.md
+    ├── analysis-execution/SKILL.md
+    ├── output-crafting/SKILL.md
+    ├── output-proofread/SKILL.md
+    └── output-review/SKILL.md
+```
+
 ## License
 
-MIT. See [`LICENSE`](../../LICENSE) at the repository root.
+MIT. See [`LICENSE`](LICENSE).
+
+## Author
+
+Naoki Yokomachi — [@n-yokomachi](https://github.com/n-yokomachi)

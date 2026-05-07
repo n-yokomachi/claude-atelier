@@ -59,6 +59,7 @@
   },
   "enabledPlugins": {
     "cadenza@claude-atelier": true,
+    "cadenza-personal@claude-atelier": true,
     "skill-creator@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
@@ -70,9 +71,9 @@
     }
   },
   "effortLevel": "xhigh",
-  "autoUpdatesChannel": "stable",
-  "skipAutoPermissionPrompt": true,
-  "voiceEnabled": true,
+  "autoUpdatesChannel": "latest",
   "remoteControlAtStartup": true,
-  "agentPushNotifEnabled": true
+  "agentPushNotifEnabled": true,
+  "skipAutoPermissionPrompt": true,
+  "voiceEnabled": true
 }
