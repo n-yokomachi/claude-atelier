@@ -1,3 +1,5 @@
+**English** | [日本語](README.ja.md)
+
 # cadenza
 
 A Claude Code plugin that turns "I want to write a blog post / talk / LT" into a disciplined, gated pipeline. Each phase — *find the issue → decompose → storyboard → verify → craft* — acts as a gate, blocking premature writing and forcing the author to clarify the question before producing the answer.
@@ -61,6 +63,7 @@ cadenza/
 │   ├── marketplace.json     ← this repo as a Claude Code marketplace
 │   └── plugin.json          ← the plugin manifest
 ├── README.md                 ← you are here
+├── README.ja.md              ← 日本語版
 ├── CHANGELOG.md
 ├── LICENSE                   ← MIT
 └── skills/
