@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.3.1] - 2026-05-07
+
+### Changed
+
+- **`issue-finding` SKILL.md**: 「Critical protocol — do not bypass」セクションを冒頭に追加し、Step 1 / Step 2 / Step 5 が **explicit user articulation** を要求することを明記。Auto Mode や continuous-execution flag では override できない旨を記載。
+- **Step 2** の文言を「Have the user articulate」→「**Stop and explicitly ask the user**」に強化。fabricate / infer from prior conversation / fill in defaults を明示的に禁止。
+- **Step 5** の文言を「get the user's agreement」→「**wait for the user's explicit verbal agreement** (e.g. "OK" / "進めて")」に強化。implicit agreement では不十分である旨を明示。
+
+### Background
+
+cadenza:issue-finding を Auto Mode で実行した際、AI が Step 2 (target reader / problem hypothesis / post-read change) をユーザーに尋ねず勝手に fabricate して進めてしまう protocol 違反が発生。これに気づいたユーザーからの指摘で、SKILL.md 側で明示的に止めるよう改修。Auto Mode は「Make reasonable assumptions and proceed on low-risk work」だが、Phase 1 のユーザー言語化は low-risk ではなく workflow の根幹であるため、Auto Mode の判断対象外であることを skill 側で明文化した。
+
 ## [0.3.0] - 2026-05-07
 
 ### Changed

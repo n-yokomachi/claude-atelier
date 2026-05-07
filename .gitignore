@@ -5,8 +5,12 @@
 
 # Temporary working files
 temp/
+.temp/
 
-# issue-driven plugin generated state (per-project working files, not part of the skill)
+# cadenza per-project working state and outputs (.cadenza/ under any working dir)
+.cadenza/
+
+# issue-driven plugin generated state (旧 plugin 名時代の互換、削除予定)
 issue-driven-state.md
 output-blog.md
 output-deck.md

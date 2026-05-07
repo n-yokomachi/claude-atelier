@@ -11,6 +11,18 @@ The most upstream phase of technical output creation. Identify "what question is
 
 Maximize **issue quality** in the formula `Value = Issue Quality × Solution Quality`. Before any downstream work (writing, analysis, slide design), guarantee that the topic itself is worth pursuing.
 
+## Critical protocol — do not bypass
+
+Steps 1, 2, and 5 require **explicit user articulation**. Specifically:
+
+- **Step 1** (primary-source basis): ask the user about their primary-source material; do not assume from prior conversation context.
+- **Step 2** (target reader / reader's problem hypothesis / post-read change): stop and ask the three questions; wait for the user's actual answers; **do not fabricate, infer from prior conversation, or fill in defaults silently**.
+- **Step 5** (final issue 1-sentence): present the candidate sentence and require explicit agreement (verbal "yes" / "OK" / "進めて" or similar) before recording — implicit agreement does not count.
+
+**Auto Mode and continuous-execution flags do not override these stops.** The whole downstream workflow rests on these three pieces of user-supplied truth; substituting your own guesses silently corrupts every phase that follows.
+
+Steps 3 (existing-content survey) and 4 (three-conditions check) can be AI-driven and don't require live user input.
+
 ## State file and artifact location
 
 All workflow artifacts (state file, voice/style notes, output files) live under `./.cadenza/` in the working directory. This skill, being the most upstream phase, creates that directory if it does not exist and writes the state file as `./.cadenza/state.md`. If the file already exists, ask the user whether to overwrite or append.
@@ -31,13 +43,13 @@ If there is no primary-source basis, point it out clearly and propose either piv
 
 ### Step 2: Articulate target reader and reader hypothesis
 
-Have the user articulate the following in 1–2 sentences each:
+**Stop and explicitly ask the user the following three questions.** Wait for the user's actual answers — do not fabricate, infer from prior conversation, or fill in defaults, even under Auto Mode (see "Critical protocol" above).
 
-- **Target reader**: What tech stack, what role, what situation?
-- **Reader's problem hypothesis**: What concrete pain point or open question is this reader currently facing?
-- **Post-read change**: After reading, what can the reader do or decide that they couldn't before?
+- **Target reader**: What tech stack, what role, what situation? (1–2 sentences)
+- **Reader's problem hypothesis**: What concrete pain point or open question is this reader currently facing? (1–2 sentences)
+- **Post-read change**: After reading, what can the reader do or decide that they couldn't before? (1–2 sentences)
 
-If these three are vague, the result will be a generic article that resonates with no one.
+If the user delegates ("you decide" / "適当に") for one of these, still propose a concrete draft and require explicit confirmation before recording. Do not record any of the three based purely on your own inference. If these three are vague, the result will be a generic article that resonates with no one.
 
 ### Step 3: Existing-content survey
 
@@ -65,7 +77,7 @@ Once all three conditions are met, fix the issue as a single sentence in this fo
 
 > "How should [target reader] think about [judgment/question] in [situation]?"
 
-Present this sentence explicitly in the conversation and get the user's agreement. Subsequent phases use this sentence as the basis.
+**Present this sentence explicitly in the conversation and wait for the user's explicit verbal agreement before recording.** Implicit / silent agreement is not enough — explicitly ask for confirmation (e.g. "この issue で進めてよろしいですか？" / "Proceed with this issue as written?") and wait for "yes" / "OK" / "進めて" or similar. If the user requests changes, refine and re-confirm. Subsequent phases use this sentence as the basis, so an unchecked recording silently corrupts the rest of the workflow.
 
 ## Output format
 
