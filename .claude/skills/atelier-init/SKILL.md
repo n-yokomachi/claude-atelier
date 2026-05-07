@@ -1,13 +1,15 @@
 ---
 name: atelier-init
-description: CLaiREハーネスを現在のマシンにインストール。~/.claude/ にシンボリックリンクを作成し、claude-atelier マーケットプレイスを登録、cadenza プラグイン + skill-creator (公式) を有効化する。初回セットアップ、ハーネスインストール時に使用。
+description: CLaiREハーネスを現在のマシンにインストール。~/.claude/ にシンボリックリンクを作成し、claude-atelier (ローカル) + cadenza (GitHub public) マーケットプレイスを登録、cadenza / cadenza-personal / skill-creator (公式) プラグインを有効化する。初回セットアップ、ハーネスインストール時に使用。
 disable-model-invocation: true
 allowed-tools: Bash, Read, Write, Edit, Glob
 ---
 
 # CLaiRE Atelier Installer
 
-このリポジトリのファイルを `~/.claude/` にシンボリックリンクで配置し、`claude-atelier` マーケットプレイスを登録、`cadenza` プラグインを有効化することで、全プロジェクトで CLaiRE パーソナルエージェントを有効にする。
+このリポジトリのファイルを `~/.claude/` にシンボリックリンクで配置し、`claude-atelier` (ローカルディレクトリ) と `cadenza` (GitHub public, https://github.com/n-yokomachi/cadenza) の 2 つのマーケットプレイスを登録、`cadenza` / `cadenza-personal` プラグインを有効化することで、全プロジェクトで CLaiRE パーソナルエージェントを有効にする。
+
+`cadenza` は OSS 公開済みプラグインで GitHub から、`cadenza-personal` は本リポジトリ (`claude-atelier`) からそれぞれ配信される構成。
 
 ## 前提条件
 - Windows: 開発者モードが有効であること（設定 → システム → 開発者向け）
@@ -62,21 +64,27 @@ ln -s <repo>/skills ~/.claude/skills
 
 以下の 3 つのプラグインをインストールする:
 
-1. **`cadenza@claude-atelier`** — 技術アウトプット 5 フェーズパイプライン（OSS 公開対象、format-agnostic な単一 markdown 出力）
-2. **`cadenza-personal@claude-atelier`** — cadenza の出力を Zenn / deck / LT 形式に仕上げる個人専用拡張（非公開）
+1. **`cadenza@cadenza`** — 技術アウトプット 5 フェーズパイプライン（OSS 公開、format-agnostic な単一 markdown 出力。`github.com/n-yokomachi/cadenza` から配信）
+2. **`cadenza-personal@claude-atelier`** — cadenza の出力を Zenn / deck / LT 形式に仕上げる個人専用拡張（非公開、本リポジトリから配信）
 3. **`skill-creator@claude-plugins-official`** — 公式の Skill 作成・eval・改善ツール
 
 CLI コマンドを Bash で実行する。**`--scope local` を必ず付ける**ことで、マシン固有のパスがプロジェクトの `.claude/settings.local.json` (gitignored) に書かれるようにする。`--scope user`（デフォルト）だと `~/.claude/settings.json` (= 本リポジトリの `dotfiles/settings.json` への symlink、git 管理対象) に書き込まれてしまうので環境ロックインの原因になる。
+
+ただし `cadenza@cadenza` (GitHub public) のみは git URL で機械非依存のため、`dotfiles/settings.json` 経由で恒常登録している。`atelier-init` 内ではマーケットプレイス登録のみ補助的に行い、有効化は settings.json 側に任せる。
 
 ```bash
 # リポジトリルート絶対パスを取得（このスキルが実行されているリポジトリ）
 REPO=$(git rev-parse --show-toplevel)
 
-# claude-atelier マーケットプレイス登録 (まだなら)
-if claude plugin marketplace list 2>&1 | grep -q "claude-atelier"; then
-  echo "Marketplace claude-atelier already registered"
-else
+# claude-atelier マーケットプレイス登録 (ローカルディレクトリ、まだなら)
+if ! claude plugin marketplace list 2>&1 | grep -q "claude-atelier"; then
   claude plugin marketplace add "$REPO" --scope local
+fi
+
+# cadenza マーケットプレイス登録 (GitHub public、まだなら)
+# 注: github.com/<owner>/<repo> の短縮形ではなく https:// 形式を使う必要がある
+if ! claude plugin marketplace list 2>&1 | grep -q "^cadenza\b\|cadenza$"; then
+  claude plugin marketplace add https://github.com/n-yokomachi/cadenza
 fi
 
 # claude-plugins-official マーケットプレイス登録 (通常はデフォルトで登録済み)
@@ -84,8 +92,10 @@ if ! claude plugin marketplace list 2>&1 | grep -q "claude-plugins-official"; th
   claude plugin marketplace add anthropics/claude-plugins-official --scope local
 fi
 
-# プラグインインストール (冪等、必ず --scope local)
-claude plugin install cadenza@claude-atelier --scope local
+# プラグインインストール (冪等)
+# cadenza は dotfiles/settings.json で enabled 設定されているため、
+# 本来は restart で自動 install されるが、明示的にも実行可能
+claude plugin install cadenza@cadenza --scope local
 claude plugin install cadenza-personal@claude-atelier --scope local
 claude plugin install skill-creator@claude-plugins-official --scope local
 ```
@@ -93,13 +103,14 @@ claude plugin install skill-creator@claude-plugins-official --scope local
 注意点:
 - パスはOSネイティブ形式でOK（Windows なら `D:\\...`、Unix なら `/home/...`）
 - インストール時にプラグインファイルは `~/.claude/plugins/cache/<marketplace>/<plugin>/<version>/` に**コピー**される（symlink ではない）
-- 自作プラグイン (`cadenza` 等) の SKILL.md を編集した場合、変更を反映するには `claude plugin marketplace update claude-atelier && claude plugin install <plugin>@claude-atelier --scope local` を再実行する必要がある
+- `cadenza` プラグイン (OSS 公開側) の編集は `plugins/cadenza/**` 経由で main に push → GitHub Actions が自動で `n-yokomachi/cadenza` public mirror に反映 → `claude plugin marketplace update cadenza && claude plugin install cadenza@cadenza --scope local` を再実行
+- `cadenza-personal` プラグイン (本リポジトリ側) の編集は `claude plugin marketplace update claude-atelier && claude plugin install cadenza-personal@claude-atelier --scope local` を再実行
 - 公式プラグイン (`skill-creator` 等) の更新は `claude plugin update skill-creator` で取得
 
 ### Step 4: 検証
 
 1. シンボリックリンクが正しいか `ls -la ~/.claude/` で確認
-2. `claude plugin list` で `cadenza@claude-atelier`, `cadenza-personal@claude-atelier`, `skill-creator@claude-plugins-official` が enabled になっているか確認
+2. `claude plugin list` で `cadenza@cadenza`, `cadenza-personal@claude-atelier`, `skill-creator@claude-plugins-official` が enabled になっているか確認
 3. 結果を報告
 
 ### Step 5: 完了報告
@@ -116,4 +127,5 @@ claude plugin install skill-creator@claude-plugins-official --scope local
    - 「`/skill-creator:skill-creator` でスキル作成・改善ツールが起動できるか確認しよう！」
 4. 開発フローの案内:
    - フラットスキル (`skills/`) は symlink 経由で即時反映される
-   - プラグインスキル (`plugins/<plugin>/skills/`) はキャッシュ方式のため、編集後に `claude plugin marketplace update claude-atelier && claude plugin install <plugin>@claude-atelier --scope local` の再実行が必要
+   - `cadenza` プラグイン: `plugins/cadenza/**` を編集して main に push → GitHub Actions が自動で `n-yokomachi/cadenza` public mirror に反映 → `claude plugin marketplace update cadenza && claude plugin install cadenza@cadenza --scope local` で取り込み
+   - `cadenza-personal` プラグイン: 編集後 `claude plugin marketplace update claude-atelier && claude plugin install cadenza-personal@claude-atelier --scope local` で取り込み

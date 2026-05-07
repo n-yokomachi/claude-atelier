@@ -58,7 +58,7 @@
     "command": "bash ~/.claude/statusline-command.sh"
   },
   "enabledPlugins": {
-    "cadenza@claude-atelier": true,
+    "cadenza@cadenza": true,
     "cadenza-personal@claude-atelier": true,
     "skill-creator@claude-plugins-official": true
   },
@@ -67,6 +67,12 @@
       "source": {
         "source": "directory",
         "path": "/Users/Naoki/work/workshop/claude-atelier"
+      }
+    },
+    "cadenza": {
+      "source": {
+        "source": "git",
+        "url": "https://github.com/n-yokomachi/cadenza.git"
       }
     }
   },
