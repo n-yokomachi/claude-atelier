@@ -68,9 +68,19 @@ ln -s <repo>/skills ~/.claude/skills
 2. **`cadenza-personal@claude-atelier`** — cadenza の出力を Zenn / deck / LT 形式に仕上げる個人専用拡張（非公開、本リポジトリから配信）
 3. **`skill-creator@claude-plugins-official`** — 公式の Skill 作成・eval・改善ツール
 
-CLI コマンドを Bash で実行する。**`--scope local` を必ず付ける**ことで、マシン固有のパスがプロジェクトの `.claude/settings.local.json` (gitignored) に書かれるようにする。`--scope user`（デフォルト）だと `~/.claude/settings.json` (= 本リポジトリの `dotfiles/settings.json` への symlink、git 管理対象) に書き込まれてしまうので環境ロックインの原因になる。
+#### Scope 方針: 全部 user scope に統一
 
-ただし `cadenza@cadenza` (GitHub public) のみは git URL で機械非依存のため、`dotfiles/settings.json` 経由で恒常登録している。`atelier-init` 内ではマーケットプレイス登録のみ補助的に行い、有効化は settings.json 側に任せる。
+CLI コマンドはすべて **`--scope user`** (デフォルト) で実行する。マーケットプレイス登録もプラグイン有効化も `~/.claude/settings.json` (= 本リポジトリの `dotfiles/settings.json` への symlink、git 管理対象) に書き込まれる。
+
+これにより:
+- `dotfiles/settings.json` を **single source of truth** として管理
+- enabledPlugins / extraKnownMarketplaces が一箇所に集約され、見通しが良い
+- `.claude/settings.local.json` (project-local、gitignored) は使わない
+
+トレードオフ:
+- `claude-atelier` マーケットプレイスのソースパス (`/Users/<name>/work/workshop/claude-atelier`) が git tracked な dotfiles/settings.json にハードコードされる
+- 別マシンで clone したときは `dotfiles/settings.json` の `extraKnownMarketplaces.claude-atelier.source.path` を手動で書き換える必要がある
+- 単一ユーザーの個人ハーネス前提なので、これは許容する設計
 
 ```bash
 # リポジトリルート絶対パスを取得（このスキルが実行されているリポジトリ）
@@ -78,7 +88,7 @@ REPO=$(git rev-parse --show-toplevel)
 
 # claude-atelier マーケットプレイス登録 (ローカルディレクトリ、まだなら)
 if ! claude plugin marketplace list 2>&1 | grep -q "claude-atelier"; then
-  claude plugin marketplace add "$REPO" --scope local
+  claude plugin marketplace add "$REPO"
 fi
 
 # cadenza マーケットプレイス登録 (GitHub public、まだなら)
@@ -89,22 +99,20 @@ fi
 
 # claude-plugins-official マーケットプレイス登録 (通常はデフォルトで登録済み)
 if ! claude plugin marketplace list 2>&1 | grep -q "claude-plugins-official"; then
-  claude plugin marketplace add anthropics/claude-plugins-official --scope local
+  claude plugin marketplace add anthropics/claude-plugins-official
 fi
 
-# プラグインインストール (冪等)
-# cadenza は dotfiles/settings.json で enabled 設定されているため、
-# 本来は restart で自動 install されるが、明示的にも実行可能
-claude plugin install cadenza@cadenza --scope local
-claude plugin install cadenza-personal@claude-atelier --scope local
-claude plugin install skill-creator@claude-plugins-official --scope local
+# プラグインインストール (冪等、すべて user scope = デフォルト)
+claude plugin install cadenza@cadenza
+claude plugin install cadenza-personal@claude-atelier
+claude plugin install skill-creator@claude-plugins-official
 ```
 
 注意点:
 - パスはOSネイティブ形式でOK（Windows なら `D:\\...`、Unix なら `/home/...`）
 - インストール時にプラグインファイルは `~/.claude/plugins/cache/<marketplace>/<plugin>/<version>/` に**コピー**される（symlink ではない）
-- `cadenza` プラグイン (OSS 公開側) の編集は `plugins/cadenza/**` 経由で main に push → GitHub Actions が自動で `n-yokomachi/cadenza` public mirror に反映 → `claude plugin marketplace update cadenza && claude plugin install cadenza@cadenza --scope local` を再実行
-- `cadenza-personal` プラグイン (本リポジトリ側) の編集は `claude plugin marketplace update claude-atelier && claude plugin install cadenza-personal@claude-atelier --scope local` を再実行
+- `cadenza` プラグイン (OSS 公開側) の編集は `plugins/cadenza/**` 経由で main に push → GitHub Actions が自動で `n-yokomachi/cadenza` public mirror に反映 → `claude plugin marketplace update cadenza && claude plugin install cadenza@cadenza` を再実行
+- `cadenza-personal` プラグイン (本リポジトリ側) の編集は `claude plugin marketplace update claude-atelier && claude plugin install cadenza-personal@claude-atelier` を再実行
 - 公式プラグイン (`skill-creator` 等) の更新は `claude plugin update skill-creator` で取得
 
 ### Step 4: 検証
@@ -127,5 +135,5 @@ claude plugin install skill-creator@claude-plugins-official --scope local
    - 「`/skill-creator:skill-creator` でスキル作成・改善ツールが起動できるか確認しよう！」
 4. 開発フローの案内:
    - フラットスキル (`skills/`) は symlink 経由で即時反映される
-   - `cadenza` プラグイン: `plugins/cadenza/**` を編集して main に push → GitHub Actions が自動で `n-yokomachi/cadenza` public mirror に反映 → `claude plugin marketplace update cadenza && claude plugin install cadenza@cadenza --scope local` で取り込み
-   - `cadenza-personal` プラグイン: 編集後 `claude plugin marketplace update claude-atelier && claude plugin install cadenza-personal@claude-atelier --scope local` で取り込み
+   - `cadenza` プラグイン: `plugins/cadenza/**` を編集して main に push → GitHub Actions が自動で `n-yokomachi/cadenza` public mirror に反映 → `claude plugin marketplace update cadenza && claude plugin install cadenza@cadenza` で取り込み
+   - `cadenza-personal` プラグイン: 編集後 `claude plugin marketplace update claude-atelier && claude plugin install cadenza-personal@claude-atelier` で取り込み
