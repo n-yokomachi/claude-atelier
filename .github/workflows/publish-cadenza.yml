@@ -7,6 +7,17 @@ on:
       - 'plugins/cadenza/**'
   workflow_dispatch:
 
+# Strategy: copy + single commit (NOT subtree split).
+# Subtree split projects all internal claude-atelier commits onto the public
+# mirror, which leaks internal migration history (e.g. "issue-driven から
+# rename"). Instead, this workflow:
+#   1. Clones the existing public repo (preserves prior public history).
+#   2. Replaces the working tree with the current plugins/cadenza/ snapshot.
+#   3. Commits a single commit using the latest claude-atelier commit message
+#      that touched plugins/cadenza/ (so each release/edit shows up as one
+#      meaningful commit on the public side).
+#   4. Pushes to public main as a fast-forward.
+
 jobs:
   publish:
     runs-on: ubuntu-latest
@@ -19,18 +30,22 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
-      - name: Configure git identity
+      - name: Resolve commit message from claude-atelier
+        id: msg
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          MSG=$(git log -1 --pretty=%s -- plugins/cadenza/)
+          if [ -z "$MSG" ]; then
+            MSG="Update cadenza"
+          fi
+          # Sanitize for shell safety (single line, no leading/trailing spaces)
+          MSG=$(echo "$MSG" | head -1 | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+          echo "msg=$MSG" >> "$GITHUB_OUTPUT"
+          echo "Resolved commit message: $MSG"
 
-      - name: Subtree split plugins/cadenza into a standalone branch
-        run: |
-          git subtree split --prefix=plugins/cadenza -b cadenza-public
-
-      - name: Force-push to n-yokomachi/cadenza public repo
+      - name: Clone public repo, replace contents, commit, push
         env:
           PUBLISH_TOKEN: ${{ secrets.CADENZA_PUBLISH_TOKEN }}
+          COMMIT_MSG: ${{ steps.msg.outputs.msg }}
         run: |
           if [ -z "$PUBLISH_TOKEN" ]; then
             echo "::error::CADENZA_PUBLISH_TOKEN secret is not set."
@@ -38,6 +53,25 @@ jobs:
             echo "then add it as repository secret CADENZA_PUBLISH_TOKEN on this repository."
             exit 1
           fi
-          git push --force \
-            "https://x-access-token:${PUBLISH_TOKEN}@github.com/n-yokomachi/cadenza.git" \
-            cadenza-public:main
+
+          # Clone the public repo (preserves existing main history)
+          git clone "https://x-access-token:${PUBLISH_TOKEN}@github.com/n-yokomachi/cadenza.git" /tmp/cadenza-public
+
+          # Configure identity inside the public clone
+          cd /tmp/cadenza-public
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # Wipe everything except .git, then copy current plugins/cadenza/ snapshot
+          find . -mindepth 1 -maxdepth 1 ! -name '.git' -exec rm -rf {} +
+          cp -R "$GITHUB_WORKSPACE/plugins/cadenza/." ./
+
+          # Stage and check for actual changes
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes to publish."
+            exit 0
+          fi
+
+          git commit -m "$COMMIT_MSG"
+          git push origin main
