@@ -9,13 +9,14 @@ on:
 
 # Strategy: copy + single commit (NOT subtree split).
 # Subtree split projects all internal claude-atelier commits onto the public
-# mirror, which leaks internal migration history (e.g. "issue-driven から
-# rename"). Instead, this workflow:
+# mirror, which leaks internal migration history. Instead, this workflow:
 #   1. Clones the existing public repo (preserves prior public history).
 #   2. Replaces the working tree with the current plugins/cadenza/ snapshot.
-#   3. Commits a single commit using the latest claude-atelier commit message
-#      that touched plugins/cadenza/ (so each release/edit shows up as one
-#      meaningful commit on the public side).
+#   3. Commits a single commit summarizing all plugins/cadenza/ changes
+#      contained in this push.
+#      - Title: latest commit subject in the push that touched plugins/cadenza/
+#      - Body (only when 2+ commits): "Other changes in this batch:" followed
+#        by the older commits' subjects as a bulleted list.
 #   4. Pushes to public main as a fast-forward.
 
 jobs:
@@ -30,22 +31,47 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
-      - name: Resolve commit message from claude-atelier
-        id: msg
+      - name: Build commit message from claude-atelier history
         run: |
-          MSG=$(git log -1 --pretty=%s -- plugins/cadenza/)
-          if [ -z "$MSG" ]; then
-            MSG="Update cadenza"
+          # Determine the commit range that this run is summarizing.
+          # For push events: github.event.before..HEAD covers everything in this push.
+          # For workflow_dispatch / first push: fall back to a small recent window.
+          BEFORE="${{ github.event.before }}"
+          if [ -n "$BEFORE" ] && [ "$BEFORE" != "0000000000000000000000000000000000000000" ]; then
+            RANGE="$BEFORE..HEAD"
+          else
+            RANGE="HEAD~10..HEAD"
           fi
-          # Sanitize for shell safety (single line, no leading/trailing spaces)
-          MSG=$(echo "$MSG" | head -1 | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
-          echo "msg=$MSG" >> "$GITHUB_OUTPUT"
-          echo "Resolved commit message: $MSG"
+
+          # Collect commit subjects in this range that touched plugins/cadenza/
+          # (newest first; cap at 20 to keep the message manageable).
+          MESSAGES=$(git log --pretty='%s' "$RANGE" -- plugins/cadenza/ 2>/dev/null | head -20 || true)
+
+          if [ -z "$MESSAGES" ]; then
+            # Last resort fallback (shouldn't trigger for path-filtered pushes,
+            # but covers edge cases like a forced workflow_dispatch).
+            MESSAGES=$(git log -1 --pretty='%s' -- plugins/cadenza/ 2>/dev/null || echo "Update cadenza")
+          fi
+
+          TITLE=$(echo "$MESSAGES" | head -1 | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+          REST=$(echo "$MESSAGES" | tail -n +2 | grep -v '^[[:space:]]*$' || true)
+
+          # Compose the final commit message and persist it for the next step.
+          {
+            echo "$TITLE"
+            if [ -n "$REST" ]; then
+              echo ""
+              echo "Other changes in this batch:"
+              echo "$REST" | sed 's/^/- /'
+            fi
+          } > /tmp/cadenza-commit-msg.txt
+
+          echo "=== Commit message preview ==="
+          cat /tmp/cadenza-commit-msg.txt
 
       - name: Clone public repo, replace contents, commit, push
         env:
           PUBLISH_TOKEN: ${{ secrets.CADENZA_PUBLISH_TOKEN }}
-          COMMIT_MSG: ${{ steps.msg.outputs.msg }}
         run: |
           if [ -z "$PUBLISH_TOKEN" ]; then
             echo "::error::CADENZA_PUBLISH_TOKEN secret is not set."
@@ -66,12 +92,12 @@ jobs:
           find . -mindepth 1 -maxdepth 1 ! -name '.git' -exec rm -rf {} +
           cp -R "$GITHUB_WORKSPACE/plugins/cadenza/." ./
 
-          # Stage and check for actual changes
+          # Commit + push only if there are actual changes
           git add -A
           if git diff --cached --quiet; then
             echo "No changes to publish."
             exit 0
           fi
 
-          git commit -m "$COMMIT_MSG"
+          git commit -F /tmp/cadenza-commit-msg.txt
           git push origin main
