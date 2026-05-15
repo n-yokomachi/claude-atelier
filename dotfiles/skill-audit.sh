@@ -50,6 +50,20 @@ ATELIER_REPO="$(dirname "$DOTFILES_DIR")"
 TS="$(date +%Y%m%d-%H%M%S)"
 REPORT="$AUDIT_DIR/${TS}-${SESSION_ID:0:8}.md"
 
+# Concurrency guard: skip if another audit spawned within the last 30 seconds.
+# Prevents two simultaneous `claude --print` processes when multiple sessions
+# end at the same time (e.g., tmux pane with worktrees closing together).
+LOCK_FILE="$LOGS_DIR/skill-audit.lock"
+if [ -f "$LOCK_FILE" ]; then
+  LOCK_AGE=$(( $(date +%s) - $(stat -f %m "$LOCK_FILE" 2>/dev/null || echo 0) ))
+  if [ "$LOCK_AGE" -lt 30 ]; then
+    printf '{"ts":"%s","skipped":"concurrent_audit","session_id":"%s"}\n' \
+      "$(date -Iseconds)" "$SESSION_ID" >> "$LOGS_DIR/session-end.jsonl"
+    exit 0
+  fi
+fi
+touch "$LOCK_FILE"
+
 # Background audit — fully detached so the hook returns immediately.
 # SKILL_AUDIT_INSIDE=1 propagates to the spawned claude → its own SessionEnd
 # hook → this script → guard at top → early exit. No recursion.
@@ -121,4 +135,10 @@ Print one of:
 
 Errors should print to stderr." \
     > "$REPORT.stdout" 2> "$REPORT.stderr"
+  # Empty-output guard: if the audit agent produced no stdout, write a stub
+  # report so the session-end event is never silently dropped.
+  if [ ! -s "$REPORT.stdout" ]; then
+    printf '# Skill Audit Report\n\nAudit agent produced no output (silent failure).\n\n**Session:** %s\n**Attempted report:** %s\n' \
+      "$SESSION_ID" "$REPORT" > "$REPORT"
+  fi
 ) </dev/null >/dev/null 2>&1 & disown
